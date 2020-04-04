@@ -10,12 +10,6 @@ public class TimeComp implements Comparator<Pair<Order,Order>> {
             return 1;
         } else if (p1.second.getPrice() - p1.first.getPrice() > p2.second.getPrice() - p2.first.getPrice()) {
             return -1;
-        } else if (p1.first.getRelTimestamp() > p2.first.getRelTimestamp()) {
-            return 1;
-        } else if (p1.first.getRelTimestamp() > p2.first.getRelTimestamp()) {
-            return -1;
-        } else {
-            return 0;
-        }
+        } else return Integer.compare(p1.first.getRelTimestamp(), p2.first.getRelTimestamp());
     }
 }

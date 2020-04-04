@@ -35,6 +35,4 @@ public class Client { //keeps track of the clients progress
     public void setNetTrade(int netTrade) {
         this.netTrade = netTrade;
     }
-
-
 }

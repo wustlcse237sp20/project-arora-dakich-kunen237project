@@ -10,19 +10,19 @@ public class Order {
     private int quantity;
     private boolean type; //true = buys and false = sell
 
-    public Order() {
+    public Order(boolean type) {
         this.timestamp = 0;
         this.relTimestamp = 0;
         this.clientID = 0;
         this.equityID = 0;
         this.price = 0;
         this.quantity = 0;
-        this.type = false;
+        this.type = type;
     }
 
-    public Order(int timestamp, int relTimestamp, int clientID, int equityID, int price, int quantity, boolean type) {
+    public Order(int timestamp, int clientID, int equityID, int price, int quantity, boolean type) {
         this.timestamp = timestamp;
-        this.relTimestamp = relTimestamp;
+        this.relTimestamp = 0;
         this.clientID = clientID;
         this.equityID = equityID;
         this.price = price;
@@ -63,6 +63,8 @@ public class Order {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public void setRelTimestamp(int relTimestamp) { this.relTimestamp = relTimestamp; }
 }
 
 

@@ -36,24 +36,4 @@ public class Transaction {
     public int getQuantity() {
         return quantity;
     }
-
-    public void setBuyer(int buyer) {
-        this.buyer = buyer;
-    }
-
-    public void setSeller(int seller) {
-        this.seller = seller;
-    }
-
-    public void setEquity(int equity) {
-        this.equity = equity;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 }

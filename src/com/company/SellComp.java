@@ -10,13 +10,6 @@ public class SellComp implements Comparator<Order> {
             return 1;
         } else if (o1.getPrice() < o2.getPrice()) {
             return -1;
-        } else if (o1.getRelTimestamp() < o2.getRelTimestamp()) {
-            return 1;
-        } else if(o1.getRelTimestamp() > o2.getRelTimestamp()) {
-            return -1;
-        } else {
-            return 0;
-        }
-
+        } else return Integer.compare(o2.getRelTimestamp(), o1.getRelTimestamp());
     }
 }
