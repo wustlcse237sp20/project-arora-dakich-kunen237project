@@ -33,9 +33,9 @@ Is there anything that you implemented but doesn't currently work?
 - The UI is displayed but is not functional.
 
 What commands are needed to compile and run your code from the command line?
-We are including a script that will run the code and display the output.
-This includes a nonfunctional UI appearing.
-Please note that there are  multiple tests in the code that follow TTD guidelines but in order to run them you must use intellij. 
+- We are including a script that will run the code and display the output.
+- This includes a nonfunctional UI appearing.
+- Please note that there are  multiple tests in the code that follow TTD guidelines but in order to run them you must use intellij. 
 
 Summary:
 Our project emulates the stock market. It’s a virtual stock market. We are looking at the transactions that occur in one day. They are in the form of a purchase or sale. Basically, the program itself isn’t just using the stock market. You are really a broker and need to find the best match between buyer and seller of a given stock.
