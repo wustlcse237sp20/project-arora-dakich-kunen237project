@@ -8,7 +8,11 @@ public class Main {
 	// write your code here
 
         VirtualStockMarketTest tests = new VirtualStockMarketTest();
-
         tests.simpleTransTest();
+        tests.twoBOneS();
+        tests.twoSOneB();
+        tests.sellerMoreExpensive();
+        tests.complexTrans();
+
     }
 }

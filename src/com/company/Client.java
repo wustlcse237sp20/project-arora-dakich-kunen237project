@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Objects;
+
 public class Client { //keeps track of the clients progress
 
     private int bought;
@@ -16,6 +18,21 @@ public class Client { //keeps track of the clients progress
         this.bought = bought;
         this.sold = sold;
         this.netTrade = netTrade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return bought == client.bought &&
+                sold == client.sold &&
+                netTrade == client.netTrade;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bought, sold, netTrade);
     }
 
     public int getBought() {

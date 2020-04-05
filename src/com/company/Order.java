@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Objects;
+
 public class Order {
 
     private int timestamp;
@@ -28,6 +30,35 @@ public class Order {
         this.price = price;
         this.quantity = quantity;
         this.type = type;
+    }
+
+    public Order(Order order) {
+        this.timestamp = order.timestamp;
+        this.relTimestamp = order.relTimestamp;
+        this.clientID = order.clientID;
+        this.equityID = order.equityID;
+        this.price = order.price;
+        this.quantity = order.quantity;
+        this.type = order.type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return timestamp == order.timestamp &&
+                relTimestamp == order.relTimestamp &&
+                clientID == order.clientID &&
+                equityID == order.equityID &&
+                price == order.price &&
+                quantity == order.quantity &&
+                type == order.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timestamp, relTimestamp, clientID, equityID, price, quantity, type);
     }
 
     public int getTimestamp() {
