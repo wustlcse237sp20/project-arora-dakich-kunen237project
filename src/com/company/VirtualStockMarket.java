@@ -7,58 +7,59 @@ import java.util.PriorityQueue;
 
 public class VirtualStockMarket {
 
-    private ArrayList<Order> orderList;
-    private int numClients;
-    private int numEquities;
+    private ArrayList<Order> orderList; //all the orders
+    private int clientCount;
+    private int equityCount;
     private ArrayList<Client> clients;
     private ArrayList<Integer> currentMedians;
-    private ArrayList<PriorityQueue<Integer>> transLow;
-    private ArrayList<PriorityQueue<Integer>> transHigh;
-    private ArrayList<PriorityQueue<Pair<Order, Order>>> pairs;
-    private ArrayList<Pair<Order, Order>> currentPairs;
-    private ArrayList<PriorityQueue<Order>> buyOrders;
-    private ArrayList<PriorityQueue<Order>> sellOrders;
-    private ArrayList<Pair<Integer, ArrayList<Integer>>> medians;
-    private ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions;
-    private int numTrans;
-    private ArrayList<Pair<Integer, Integer>> timeTravelers;
+    private ArrayList<PriorityQueue<Integer>> lowTransactions; //equity values below the median
+    private ArrayList<PriorityQueue<Integer>> highTransactions; //equity values above the median
+    private ArrayList<PriorityQueue<Pair<Order, Order>>> buySellPairs; //buy/sell pairs used for time travelers portion
+    private ArrayList<Pair<Order, Order>> currentBuySellPairs;
+    private ArrayList<PriorityQueue<Order>> buyOrders; //only buy orders
+    private ArrayList<PriorityQueue<Order>> sellOrders; //only sell orders
+    private ArrayList<Pair<Integer, ArrayList<Integer>>> medians; //list of all equities medians at the end of each timestamp.
+    //0 means no transaction occurred for a given equity
+    private ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions; //list if transactions that occurred for each timestamp.
+    private int transactionCount; //total number of transactions that occurred
+    private ArrayList<Pair<Integer, Integer>> timeTravelers; //list of times to buy and sell stocks to maximize profit
 
-    public VirtualStockMarket(ArrayList<Order> orderList, int numClients, int numEquities) {
+    public VirtualStockMarket(ArrayList<Order> orderList, int clientCount, int equityCount) {
         this.orderList = orderList;
-        this.numClients = numClients;
-        this.numEquities = numEquities;
-        this.clients = new ArrayList<>(numClients);
-        this.currentMedians = new ArrayList<>(numEquities); //keeps track of the current list of medians
-        this.transLow = new ArrayList<>(numEquities);
-        this.transHigh = new ArrayList<>(numEquities);
-        this.pairs = new ArrayList<>(numEquities);
-        this.currentPairs = new ArrayList<>(numEquities);
-        this.buyOrders = new ArrayList<>(numEquities);
-        this.sellOrders = new ArrayList<>(numEquities);
-        for (int i = 0; i < numClients; i++) {
+        this.clientCount = clientCount;
+        this.equityCount = equityCount;
+        this.clients = new ArrayList<>(clientCount);
+        this.currentMedians = new ArrayList<>(equityCount); //keeps track of the current list of medians
+        this.lowTransactions = new ArrayList<>(equityCount);
+        this.highTransactions = new ArrayList<>(equityCount);
+        this.buySellPairs = new ArrayList<>(equityCount);
+        this.currentBuySellPairs = new ArrayList<>(equityCount);
+        this.buyOrders = new ArrayList<>(equityCount);
+        this.sellOrders = new ArrayList<>(equityCount);
+        for (int i = 0; i < clientCount; i++) {
             this.clients.add(new Client());
         }
-        for (int i = 0; i < numEquities; i++) {
+        for (int i = 0; i < equityCount; i++) {
             this.currentMedians.add(0);
-            this.transLow.add(new PriorityQueue<>(orderList.size(), Collections.reverseOrder()));
-            this.transHigh.add(new PriorityQueue<>(orderList.size()));
-            this.currentPairs.add(Pair.of(new Order(true), new Order(false)));
-            this.pairs.add(new PriorityQueue<>(orderList.size(), new TimeComp()));
-            this.buyOrders.add(new PriorityQueue<>(orderList.size(), new BuyComp()));
-            this.sellOrders.add(new PriorityQueue<>(orderList.size(), new SellComp()));
+            this.lowTransactions.add(new PriorityQueue<>(orderList.size(), Collections.reverseOrder()));
+            this.highTransactions.add(new PriorityQueue<>(orderList.size()));
+            this.currentBuySellPairs.add(Pair.of(new Order(true), new Order(false)));
+            this.buySellPairs.add(new PriorityQueue<>(orderList.size(), new TimeComparator()));
+            this.buyOrders.add(new PriorityQueue<>(orderList.size(), new BuyComparator()));
+            this.sellOrders.add(new PriorityQueue<>(orderList.size(), new SellComparator()));
         }
         this.transactions = new ArrayList<>();
         this.medians = new ArrayList<>(); //we want to match each median with its timestamp. A Pair basically.
-        this.numTrans = 0;
-        this.timeTravelers = new ArrayList<>(numEquities);
+        this.transactionCount = 0;
+        this.timeTravelers = new ArrayList<>(equityCount);
     }
 
-    public int getNumClients() {
-        return numClients;
+    public int getClientCount() {
+        return clientCount;
     }
 
-    public int getNumEquities() {
-        return numEquities;
+    public int getEquityCount() {
+        return equityCount;
     }
 
     public ArrayList<Client> getClients() {
@@ -73,15 +74,15 @@ public class VirtualStockMarket {
         return transactions;
     } //a list of transactions that occured for each timestamp
 
-    public int getNumTrans() {
-        return numTrans;
+    public int getTransactionCount() {
+        return transactionCount;
     }//total number of transactions
 
     public ArrayList<Pair<Integer, Integer>> getTimeTravelers() {
         return timeTravelers;
     }// ideal buy and sell times for each equity
 
-    public void computeTrans() {
+    public void computeTrans() { //process orders, store data in member variables
         //here we take in the list of orders and compute all the transactions
         ArrayList<Transaction> currentTrans = new ArrayList<>();
         int currentTimestamp = 0;
@@ -98,20 +99,20 @@ public class VirtualStockMarket {
                 }
                 currentTimestamp = orderList.get(i).getTimestamp();
             }
-            Transaction trans;
+            Transaction transaction;
             if (orderList.get(i).getType()) {
-                trans = getTransBuyer(i);
+                transaction = getTransBuyer(i);
             } else {
-                trans = getTransSeller(i);
+                transaction = getTransSeller(i);
             }
-            while(trans != null) {
-                computeMedian(trans, i);
-                currentTrans.add(trans);
-                numTrans++;
+            while(transaction != null) {
+                computeMedian(transaction, i);
+                currentTrans.add(transaction);
+                transactionCount++;
                 if (orderList.get(i).getType()) {
-                    trans = getTransBuyer(i);
+                    transaction = getTransBuyer(i);
                 } else {
-                    trans = getTransSeller(i);
+                    transaction = getTransSeller(i);
                 }
             }
 
@@ -131,118 +132,125 @@ public class VirtualStockMarket {
         }
         generateTimeList();
     }
-    private Transaction getTransBuyer(int idx) {
-        if (orderList.get(idx).getQuantity() == 0 || sellOrders.get(orderList.get(idx).getEquityID()).isEmpty() ||
-            orderList.get(idx).getPrice() < sellOrders.get(orderList.get(idx).getEquityID()).peek().getPrice())
+
+    //given buy order, find optimal sell match, if it exists
+    private Transaction getTransBuyer(int orderIndex) {
+        if (orderList.get(orderIndex).getQuantity() == 0 || sellOrders.get(orderList.get(orderIndex).getEquityID()).isEmpty() ||
+            orderList.get(orderIndex).getPrice() < sellOrders.get(orderList.get(orderIndex).getEquityID()).peek().getPrice())
             return null;
-        Order matchedSeller = sellOrders.get(orderList.get(idx).getEquityID()).poll();
-        int quantity = Math.min(orderList.get(idx).getQuantity(), matchedSeller.getQuantity());
-        Transaction trans = new Transaction(orderList.get(idx).getClientID(),
-                                matchedSeller.getClientID(), orderList.get(idx).getEquityID(),
+        Order matchedSeller = sellOrders.get(orderList.get(orderIndex).getEquityID()).poll();
+        int quantity = Math.min(orderList.get(orderIndex).getQuantity(), matchedSeller.getQuantity());
+        Transaction transaction = new Transaction(orderList.get(orderIndex).getClientID(),
+                                matchedSeller.getClientID(), orderList.get(orderIndex).getEquityID(),
                                 matchedSeller.getPrice(), quantity);
-        orderList.get(idx).setQuantity(orderList.get(idx).getQuantity() - quantity);
+        orderList.get(orderIndex).setQuantity(orderList.get(orderIndex).getQuantity() - quantity);
         matchedSeller.setQuantity(matchedSeller.getQuantity() - quantity);
-        updateClients(trans);
+        updateClients(transaction);
         if (matchedSeller.getQuantity() != 0) {
-            sellOrders.get(orderList.get(idx).getEquityID()).add(matchedSeller);
+            sellOrders.get(orderList.get(orderIndex).getEquityID()).add(matchedSeller);
         }
-        return trans;
+        return transaction;
     }
 
-    private Transaction getTransSeller(int idx) { //CHANGE IDX
-        if (orderList.get(idx).getQuantity() == 0 || buyOrders.get(orderList.get(idx).getEquityID()).isEmpty() ||
-            orderList.get(idx).getPrice() > buyOrders.get(orderList.get(idx).getEquityID()).peek().getPrice())
+    //given sell order, find optimal buy match, if it exists
+    private Transaction getTransSeller(int orderIndex) { //CHANGE IDX
+        if (orderList.get(orderIndex).getQuantity() == 0 || buyOrders.get(orderList.get(orderIndex).getEquityID()).isEmpty() ||
+            orderList.get(orderIndex).getPrice() > buyOrders.get(orderList.get(orderIndex).getEquityID()).peek().getPrice())
             return null;
-        Order matchedBuyer = buyOrders.get(orderList.get(idx).getEquityID()).poll();
-        int quantity = Math.min(matchedBuyer.getQuantity(), orderList.get(idx).getQuantity());
-        Transaction trans = new Transaction(matchedBuyer.getClientID(),
-                            orderList.get(idx).getClientID(), orderList.get(idx).getEquityID(),
+        Order matchedBuyer = buyOrders.get(orderList.get(orderIndex).getEquityID()).poll();
+        int quantity = Math.min(matchedBuyer.getQuantity(), orderList.get(orderIndex).getQuantity());
+        Transaction transaction = new Transaction(matchedBuyer.getClientID(),
+                            orderList.get(orderIndex).getClientID(), orderList.get(orderIndex).getEquityID(),
                             matchedBuyer.getPrice(), quantity);
-        orderList.get(idx).setQuantity(orderList.get(idx).getQuantity() - quantity);
+        orderList.get(orderIndex).setQuantity(orderList.get(orderIndex).getQuantity() - quantity);
         matchedBuyer.setQuantity(matchedBuyer.getQuantity() - quantity);
-        updateClients(trans);
+        updateClients(transaction);
         if (matchedBuyer.getQuantity() != 0) {
-            buyOrders.get(orderList.get(idx).getEquityID()).add(matchedBuyer);
+            buyOrders.get(orderList.get(orderIndex).getEquityID()).add(matchedBuyer);
         }
-        return trans;
+        return transaction;
     }
 
-    private void updateClients(Transaction trans) {
-        int quantity = clients.get(trans.getBuyer()).getBought();
-        int netTrade = clients.get(trans.getBuyer()).getNetTrade();
-        clients.get(trans.getBuyer()).setBought(quantity + trans.getQuantity());
-        clients.get(trans.getBuyer()).setNetTrade(netTrade - trans.getQuantity() * trans.getPrice());
-        quantity = clients.get(trans.getSeller()).getSold();
-        netTrade = clients.get(trans.getSeller()).getNetTrade();
-        clients.get(trans.getSeller()).setSold(quantity + trans.getQuantity());
-        clients.get(trans.getSeller()).setNetTrade(netTrade + trans.getQuantity() * trans.getPrice());
+    //given a transaction, update buyer and seller's data
+    private void updateClients(Transaction transaction) {
+        int quantity = clients.get(transaction.getBuyer()).getBought();
+        int netTrade = clients.get(transaction.getBuyer()).getNetTrade();
+        clients.get(transaction.getBuyer()).setBought(quantity + transaction.getQuantity());
+        clients.get(transaction.getBuyer()).setNetTrade(netTrade - transaction.getQuantity() * transaction.getPrice());
+        quantity = clients.get(transaction.getSeller()).getSold();
+        netTrade = clients.get(transaction.getSeller()).getNetTrade();
+        clients.get(transaction.getSeller()).setSold(quantity + transaction.getQuantity());
+        clients.get(transaction.getSeller()).setNetTrade(netTrade + transaction.getQuantity() * transaction.getPrice());
     }
 
-    private void computeMedian(Transaction trans,int idx) {
-        int equityID = orderList.get(idx).getEquityID();
-        if(trans.getPrice() < currentMedians.get(equityID)) {
-           transLow.get(equityID).add(trans.getPrice());
+    //insert new transaction value to list of equity values (low and/or high) and update median
+    private void computeMedian(Transaction transaction,int orderIndex) {
+        int equityID = orderList.get(orderIndex).getEquityID();
+        if(transaction.getPrice() < currentMedians.get(equityID)) {
+           lowTransactions.get(equityID).add(transaction.getPrice());
         } else {
-            transHigh.get(equityID).add(trans.getPrice());
+            highTransactions.get(equityID).add(transaction.getPrice());
         }
-        int numLow = transLow.get(equityID).size();
-        int numHigh = transHigh.get(equityID).size();
+        int lowTransactionSize = lowTransactions.get(equityID).size();
+        int highTransactionSize = highTransactions.get(equityID).size();
         int median = 0;
-        int temp;
-        switch (numLow - numHigh) {
+        int transferElement;
+        switch (lowTransactionSize - highTransactionSize) {
         case -2:
-            temp = transHigh.get(equityID).poll();
-            transLow.get(equityID).add(temp);
-            median = (transLow.get(equityID).peek() + transHigh.get(equityID).peek())/2;
+            transferElement = highTransactions.get(equityID).poll();
+            lowTransactions.get(equityID).add(transferElement);
+            median = (lowTransactions.get(equityID).peek() + highTransactions.get(equityID).peek())/2;
             break;
         case -1:
-            median = transHigh.get(equityID).peek();
+            median = highTransactions.get(equityID).peek();
             break;
         case 0:
-            median = (transLow.get(equityID).peek() + transHigh.get(equityID).peek())/2;
+            median = (lowTransactions.get(equityID).peek() + highTransactions.get(equityID).peek())/2;
             break;
         case 1:
-            median = transLow.get(equityID).peek();
+            median = lowTransactions.get(equityID).peek();
             break;
         case 2:
-            temp = transLow.get(equityID).poll();
-            transHigh.get(equityID).add(temp);
-            median = (transLow.get(equityID).peek() + transHigh.get(equityID).peek())/2;
+            transferElement = lowTransactions.get(equityID).poll();
+            highTransactions.get(equityID).add(transferElement);
+            median = (lowTransactions.get(equityID).peek() + highTransactions.get(equityID).peek())/2;
             break;
         }
         currentMedians.set(equityID,median);
     }
 
-    private void computeTime(int idx) {
-        int equityID = orderList.get(idx).getEquityID();
-        if(!orderList.get(idx).getType()) {
-            if(currentPairs.get(equityID).first.getPrice() == 0 ||
-                    orderList.get(idx).getPrice() < currentPairs.get(equityID).first.getPrice()) {
-                if(currentPairs.get(equityID).first.getPrice() != 0 &&
-                        currentPairs.get(equityID).first.getPrice() < currentPairs.get(equityID).second.getPrice()) {
-                    pairs.get(equityID).add(currentPairs.get(equityID));
+    //update buy/sell pair if better pair can be created for time traveling
+    private void computeTime(int orderIndex) {
+        int equityID = orderList.get(orderIndex).getEquityID();
+        if(!orderList.get(orderIndex).getType()) {
+            if(currentBuySellPairs.get(equityID).first.getPrice() == 0 ||
+                    orderList.get(orderIndex).getPrice() < currentBuySellPairs.get(equityID).first.getPrice()) {
+                if(currentBuySellPairs.get(equityID).first.getPrice() != 0 &&
+                        currentBuySellPairs.get(equityID).first.getPrice() < currentBuySellPairs.get(equityID).second.getPrice()) {
+                    buySellPairs.get(equityID).add(currentBuySellPairs.get(equityID));
                 }
-                currentPairs.set(equityID, Pair.of(new Order(orderList.get(idx)), currentPairs.get(equityID).second));
-                currentPairs.get(equityID).second.setPrice(0);
+                currentBuySellPairs.set(equityID, Pair.of(new Order(orderList.get(orderIndex)), currentBuySellPairs.get(equityID).second));
+                currentBuySellPairs.get(equityID).second.setPrice(0);
             }
         }
-        else if(currentPairs.get(equityID).second.getPrice() == 0 ||
-                orderList.get(idx).getPrice() > currentPairs.get(equityID).second.getPrice()) {
-            currentPairs.set(equityID, Pair.of(currentPairs.get(equityID).first, new Order(orderList.get(idx))));
+        else if(currentBuySellPairs.get(equityID).second.getPrice() == 0 ||
+                orderList.get(orderIndex).getPrice() > currentBuySellPairs.get(equityID).second.getPrice()) {
+            currentBuySellPairs.set(equityID, Pair.of(currentBuySellPairs.get(equityID).first, new Order(orderList.get(orderIndex))));
         }
     }
 
+    //compute optimal buy/sell times for each equity
     private void generateTimeList() {
-        for (int i = 0; i < numEquities; i++) {
+        for (int i = 0; i < equityCount; i++) {
             int buyTime = -1;
             int sellTime = -1;
-            if (currentPairs.get(i).first.getPrice() != 0 && currentPairs.get(i).second.getPrice() != 0 &&
-                    currentPairs.get(i).first.getPrice() < currentPairs.get(i).second.getPrice()) {
-                pairs.get(i).add(currentPairs.get(i));
+            if (currentBuySellPairs.get(i).first.getPrice() != 0 && currentBuySellPairs.get(i).second.getPrice() != 0 &&
+                    currentBuySellPairs.get(i).first.getPrice() < currentBuySellPairs.get(i).second.getPrice()) {
+                buySellPairs.get(i).add(currentBuySellPairs.get(i));
             }
-            if (!pairs.get(i).isEmpty()) {
-                buyTime = pairs.get(i).peek().first.getTimestamp();
-                sellTime = pairs.get(i).peek().second.getTimestamp();
+            if (!buySellPairs.get(i).isEmpty()) {
+                buyTime = buySellPairs.get(i).peek().first.getTimestamp();
+                sellTime = buySellPairs.get(i).peek().second.getTimestamp();
             }
             timeTravelers.add(Pair.of(buyTime, sellTime));
         }

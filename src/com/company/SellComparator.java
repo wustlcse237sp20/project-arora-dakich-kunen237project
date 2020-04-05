@@ -2,8 +2,9 @@ package com.company;
 
 import java.util.Comparator;
 
-public class SellComp implements Comparator<Order> {
+public class SellComparator implements Comparator<Order> {
 
+    //comparator used for sellOrders priority queue. Higher prices are preferred, otherwise lower timestamps.
     @Override
     public int compare(Order o1, Order o2) {
         if (o1.getPrice() > o2.getPrice()) {

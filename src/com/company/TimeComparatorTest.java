@@ -3,10 +3,7 @@ package com.company;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class TimeCompTest {
+class TimeComparatorTest {
     Order order1 = new Order( 0, 1, 1, 50, 10, true);
     Order order2 = new Order(1, 2, 1, 100, 10, true);
     Order order3 = new Order(2, 0, 1, 15, 26, true);
@@ -17,7 +14,7 @@ class TimeCompTest {
 
     @Test
     public void compare() {
-        TimeComp timecomparison = new TimeComp();
+        TimeComparator timecomparison = new TimeComparator();
         Assert.assertEquals(timecomparison.compare(pair1,pair2),-1);
 
     }
