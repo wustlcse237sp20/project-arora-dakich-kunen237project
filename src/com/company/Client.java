@@ -12,6 +12,12 @@ public class Client { //keeps track of the clients progress
         this.netTrade = 0;
     }
 
+    public Client(int bought, int sold, int netTrade) {
+        this.bought = bought;
+        this.sold = sold;
+        this.netTrade = netTrade;
+    }
+
     public int getBought() {
         return bought;
     }

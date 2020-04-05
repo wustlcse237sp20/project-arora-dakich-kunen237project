@@ -11,46 +11,26 @@ public class VirtualStockMarket {
     private int numClients;
     private int numEquities;
     private ArrayList<Client> clients;
-    private ArrayList<Integer> currentMedians;
-    private ArrayList<PriorityQueue<Integer>> transLow;
-    private ArrayList<PriorityQueue<Integer>> transHigh;
-    private ArrayList<PriorityQueue<Pair<Order,Order>>> pairs;
-    private ArrayList<Pair<Order,Order>> currentPairs;
-    private ArrayList<PriorityQueue<Order>> buyOrders;
-    private ArrayList<PriorityQueue<Order>> sellOrders;
+    private ArrayList<Equity> equityList;
     private ArrayList<Pair<Integer, ArrayList<Integer>>> medians;
     private ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions;
     private int numTrans;
-    private ArrayList<Pair<Integer, Integer>> timeTravelers;
 
     public VirtualStockMarket(ArrayList<Order> orderList, int numClients, int numEquities) {
         this.orderList = orderList;
         this.numClients = numClients;
         this.numEquities = numEquities;
         clients = new ArrayList<>(numClients);
-        currentMedians = new ArrayList<>(numEquities); //keeps track of the current list of medians
-        transLow = new ArrayList<>(numEquities);
-        transHigh = new ArrayList<>(numEquities);
-        pairs = new ArrayList<>(numEquities);
-        currentPairs = new ArrayList<>(numEquities);
-        buyOrders = new ArrayList<>(numEquities);
-        sellOrders = new ArrayList<>(numEquities);
+        equityList = new ArrayList<>(numEquities);
         for (int i = 0; i < numClients; i++) {
-            clients.set(i, new Client());
+            clients.add(new Client());
         }
         for (int i = 0; i < numEquities; i++) {
-            currentMedians.set(i,0);
-            transLow.set(i, new PriorityQueue<>(orderList.size()));
-            transHigh.set(i, new PriorityQueue<>(orderList.size(), Collections.reverseOrder()));
-            currentPairs.set(i, Pair.of(new Order(true), new Order(false)));
-            pairs.set(i, new PriorityQueue<>(orderList.size(), new TimeComp()));
-            buyOrders.set(i, new PriorityQueue<>(orderList.size(),new BuyComp()));
-            sellOrders.set(i, new PriorityQueue<>(orderList.size(),new SellComp()));
+            equityList.add(new Equity(orderList.size()));
         }
         transactions = new ArrayList<>();
         medians = new ArrayList<>(); //we want to match each median with its timestamp. A Pair basically.
         numTrans = 0;
-        timeTravelers = new ArrayList<>(numEquities);
     }
 
     public int getNumClients() {
@@ -63,23 +43,23 @@ public class VirtualStockMarket {
 
     public ArrayList<Client> getClients() {
         return clients;
-    }
+    } //transaction record for each client
 
     public ArrayList<Pair<Integer, ArrayList<Integer>>> getMedians() {
         return medians;
-    }
+    } //all equities medians for each timestamp
 
     public ArrayList<Pair<Integer, ArrayList<Transaction>>> getTransactions() {
         return transactions;
-    }
+    } //a list of transactions that occured for each timestamp
 
     public int getNumTrans() {
         return numTrans;
-    }
+    }//total number of transactions
 
     public ArrayList<Pair<Integer, Integer>> getTimeTravelers() {
         return timeTravelers;
-    }
+    }// ideal buy and sell times for each equity
 
     public void computeTrans() {
         //here we take in the list of orders and compute all the transactions
@@ -89,8 +69,8 @@ public class VirtualStockMarket {
             orderList.get(i).setRelTimestamp(i);
             computeTime(i);
             if(orderList.get(i).getTimestamp() != currentTimestamp) {
-                transactions.add(transactions.size() - 1, Pair.of(currentTimestamp,currentTrans));
-                medians.add(medians.size() - 1, Pair.of(currentTimestamp,currentMedians));
+                transactions.add( Pair.of(currentTimestamp,currentTrans));
+                medians.add( Pair.of(currentTimestamp,currentMedians));
                 currentTimestamp = orderList.get(i).getTimestamp();
             }
             Transaction trans;
@@ -159,10 +139,15 @@ public class VirtualStockMarket {
     public void updateClients(Transaction trans) {
         int quantity = clients.get(trans.getBuyer()).getBought();
         int netTrade = clients.get(trans.getBuyer()).getNetTrade();
-        clients.get(trans.getBuyer()).setBought(quantity + trans.getQuantity());
-        clients.get(trans.getBuyer()).setNetTrade(netTrade - trans.getQuantity() * trans.getPrice());
-        clients.get(trans.getSeller()).setSold(quantity + trans.getQuantity());
-        clients.get(trans.getSeller()).setNetTrade(netTrade + trans.getQuantity() * trans.getPrice());
+        Client buyer = clients.get(trans.getBuyer());
+        Client seller = clients.get(trans.getSeller());
+        buyer.setBought(quantity + trans.getQuantity());
+        buyer.setNetTrade(netTrade - trans.getQuantity() * trans.getPrice());
+        seller.setSold(quantity + trans.getQuantity());
+        seller.setNetTrade(netTrade + trans.getQuantity() * trans.getPrice());
+        clients.set(trans.getBuyer(),buyer);
+        clients.set(trans.getSeller(),seller);
+
     }
 
     public void computeMedian(Transaction trans,int idx) {
@@ -230,7 +215,7 @@ public class VirtualStockMarket {
                 buyTime = pairs.get(i).peek().first.getTimestamp();
                 sellTime = pairs.get(i).peek().second.getTimestamp();
             }
-            timeTravelers.set(i, Pair.of(buyTime, sellTime));
+            timeTravelers.add(Pair.of(buyTime, sellTime));
         }
     }
 }
