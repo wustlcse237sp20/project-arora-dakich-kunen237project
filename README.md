@@ -5,28 +5,28 @@ Iteration 1
 
 User stories completed this iteration:
 
-User can request to buy a stock.
-User can request to sell a stock.
-User can set a price for the order.
-A seller matches the best buy price.
-A buyer matches the best sell price.
-Basic UI completed.
-Transaction tests completed.
-Median tests completed.
-Time traveler tests completed.
-Verbose console output.
+- User can request to buy a stock.
+- User can request to sell a stock.
+- User can set a price for the order.
+- A seller matches the best buy price.
+- A buyer matches the best sell price.
+- Basic UI completed.
+- Transaction tests completed.
+- Median tests completed.
+- Time traveler tests completed.
+- Verbose console output.
 
 User stories to be completed next iteration:
 
-Real names for equities.
-Real names for clients.
-Files for equity and client names.
-Include more specialized tests.
-Merge with user interface.
-Improve user interface aesthetics.
-Error checking/exceptions.
-Random input generator.
-Ability to input file names in command line arguments.
+- Real names for equities.
+- Real names for clients.
+- Files for equity and client names.
+- Include more specialized tests.
+- Merge with user interface.
+- Improve user interface aesthetics.
+- Error checking/exceptions.
+- Random input generator.
+- Ability to input file names in command line arguments.
 
 Is there anything that you implemented but doesn't currently work?
 
