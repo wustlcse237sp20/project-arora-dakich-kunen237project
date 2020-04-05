@@ -4,12 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class VirtualStockMarketTest {
 
     @Test
-    public void simpleTransClient() { //simple trade, shows client stats
+    public void simpleTransactionClient() { //simple trade, shows client stats
         Order order1 = new Order( 0, 0, 0, 100, 10, true);
         Order order2 = new Order( 1, 1, 0, 100, 10, false);
         ArrayList<Order> orderList = new ArrayList<>();
@@ -24,7 +22,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void simpleTransMedian() { //simple trade, median should be value of trade
+    public void simpleTransactionMedian() { //simple trade, median should be value of trade
         Order order1 = new Order( 0, 0, 0, 100, 10, true);
         Order order2 = new Order( 1, 1, 0, 100, 10, false);
         ArrayList<Order> orderList = new ArrayList<>();
@@ -40,7 +38,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void simpleTransTime() { //simple trade, no opportunity for profit
+    public void simpleTransactionTime() { //simple trade, no opportunity for profit
         Order order1 = new Order( 0, 0, 0, 100, 10, true);
         Order order2 = new Order( 1, 1, 0, 100, 10, false);
         ArrayList<Order> orderList = new ArrayList<>();
@@ -53,7 +51,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void twoBOneSClient(){ //two buys one sell test, client stats should reflect two transactions
+    public void twoBuysOneSellClient(){ //two buys one sell test, client stats should reflect two transactions
         Order order1 = new Order( 0,0,0,100,5,true);
         Order order2 = new Order(1,1,0,200,5,true);
         Order order3 = new Order(2,2,0,100,10,false);
@@ -71,7 +69,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void twoBOneSNumber(){ //two buys one sell test, two total transactions
+    public void twoBuysOneSellNumber(){ //two buys one sell test, two total transactions
         Order order1 = new Order( 0,0,0,100,5,true);
         Order order2 = new Order(1,1,0,200,5,true);
         Order order3 = new Order(2,2,0,100,10,false);
@@ -81,11 +79,11 @@ class VirtualStockMarketTest {
         orderList.add(order3);
         VirtualStockMarket vs = new VirtualStockMarket(orderList, 3, 1);
         vs.computeTrans();
-        Assert.assertEquals(2, vs.getNumTrans());
+        Assert.assertEquals(2, vs.getTransactionCount());
     }
 
     @Test
-    public void twoBOneSMedian(){ //two buys one sell test, median should be average of two values
+    public void twoBuyOneSellMedian(){ //two buys one sell test, median should be average of two values
         Order order1 = new Order( 0,0,0,100,5,true);
         Order order2 = new Order(1,1,0,200,5,true);
         Order order3 = new Order(2,2,0,100,10,false);
@@ -103,7 +101,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void twoSOneBClient(){ //two sell, one buy test, only one transaction should take place
+    public void twoSellsOneBuyClient(){ //two sell, one buy test, only one transaction should take place
         Order order1 = new Order( 0,0,0,100,5,true);
         Order order2 = new Order(1,1,0,50,5,false);
         Order order3 = new Order(2,2,0,100,10,false);
@@ -121,7 +119,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void twoSOneBMedian(){ //two sell, one buy test, median should be the higher of the two values
+    public void twoSellsOneBuyMedian(){ //two sell, one buy test, median should be the higher of the two values
         Order order1 = new Order( 0,0,0,100,5,true);
         Order order2 = new Order(1,1,0,50,5,false);
         Order order3 = new Order(2,2,0,100,10,false);
@@ -157,7 +155,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void complexTransClient(){ //many transactions test, client stats more complex
+    public void complexTransactionClient(){ //many transactions test, client stats more complex
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
         Order order3 = new Order( 1, 0, 1, 75, 30, true);
@@ -203,7 +201,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void complexTransNumber(){ //many transactions test, should be 7 total
+    public void complexTransactionNumber(){ //many transactions test, should be 7 total
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
         Order order3 = new Order( 1, 0, 1, 75, 30, true);
@@ -241,11 +239,11 @@ class VirtualStockMarketTest {
         orderList.add(order12);
         VirtualStockMarket vs = new VirtualStockMarket(orderList, 3, 2);
         vs.computeTrans();
-        Assert.assertEquals(7, vs.getNumTrans());
+        Assert.assertEquals(7, vs.getTransactionCount());
     }
 
     @Test
-    public void complexTransMedian(){ //many transactions test, dynamic medians
+    public void complexTransactionMedian(){ //many transactions test, dynamic medians
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
         Order order3 = new Order( 1, 0, 1, 75, 30, true);
@@ -315,7 +313,7 @@ class VirtualStockMarketTest {
     }
 
     @Test
-    public void complexTransTime(){ //many transactions test, there are opportunities for profit with both equities
+    public void complexTransactionTime(){ //many transactions test, there are opportunities for profit with both equities
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
         Order order3 = new Order( 1, 0, 1, 75, 30, true);

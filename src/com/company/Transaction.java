@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Objects;
 
-public class Transaction {
+public class Transaction { //information for each transaction that took place
 
     private int buyer;
     private int seller;
