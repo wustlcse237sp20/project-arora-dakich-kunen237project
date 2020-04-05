@@ -138,7 +138,7 @@ public class VirtualStockMarket {
         return trans;
     }
 
-    public Transaction getTransSeller(int idx) {
+    public Transaction getTransSeller(int idx) { //CHANGE IDX
         if (orderList.get(idx).getQuantity() == 0 || buyOrders.get(orderList.get(idx).getEquityID()).isEmpty() ||
             orderList.get(idx).getPrice() > buyOrders.get(orderList.get(idx).getEquityID()).peek().getPrice())
             return null;
