@@ -7,48 +7,48 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
 
-        VirtualStockMarketTest tests = new VirtualStockMarketTest();
-        tests.simpleTransClient();
-        System.out.println("simpleTransClient test passed!");
-        tests.simpleTransMedian();
-        System.out.println("simpleTransMedian test passed!");
-        tests.simpleTransTime();
-        System.out.println("simpleTransTime test passed!");
-        tests.twoBOneSClient();
-        System.out.println("twoBOneSClient test passed!");
-        tests.twoBOneSNumber();
-        System.out.println("twoBOneSNumber test passed!");
-        tests.twoBOneSMedian();
-        System.out.println("twoBOneSMedian test passed!");
-        tests.twoSOneBClient();
-        System.out.println("twoSOneBClient test passed!");
-        tests.twoSOneBMedian();
-        System.out.println("twoSOneBMedian test passed!");
-        tests.sellerMoreExpensive();
-        System.out.println("sellerMoreExpensive test passed!");
-        tests.complexTransClient();
-        System.out.println("complexTransClient test passed!");
-        tests.complexTransNumber();
-        System.out.println("complexTransNumber test passed!");
-        tests.complexTransMedian();
-        System.out.println("complexTransMedian test passed!");
-        tests.complexTransTime();
-        System.out.println("complexTransTime test passed!");
-        System.out.println();
-        BuyCompTest buyCompTest = new BuyCompTest();
-        buyCompTest.compare();
-        System.out.println("buyCompTest  passed!");
-
-        SellCompTest sellCompTest = new SellCompTest();
-        sellCompTest.compare();
-        System.out.println("sellCompTest passed!");
-
-        TimeCompTest timeCompTest = new TimeCompTest();
-        timeCompTest.compare();
-        System.out.println("timeCompTest passed!");
-        System.out.println();
-        System.out.println("Running complex test...");
-        System.out.println();
+//        VirtualStockMarketTest tests = new VirtualStockMarketTest();
+//        tests.simpleTransClient();
+//        System.out.println("simpleTransClient test passed!");
+//        tests.simpleTransMedian();
+//        System.out.println("simpleTransMedian test passed!");
+//        tests.simpleTransTime();
+//        System.out.println("simpleTransTime test passed!");
+//        tests.twoBOneSClient();
+//        System.out.println("twoBOneSClient test passed!");
+//        tests.twoBOneSNumber();
+//        System.out.println("twoBOneSNumber test passed!");
+//        tests.twoBOneSMedian();
+//        System.out.println("twoBOneSMedian test passed!");
+//        tests.twoSOneBClient();
+//        System.out.println("twoSOneBClient test passed!");
+//        tests.twoSOneBMedian();
+//        System.out.println("twoSOneBMedian test passed!");
+//        tests.sellerMoreExpensive();
+//        System.out.println("sellerMoreExpensive test passed!");
+//        tests.complexTransClient();
+//        System.out.println("complexTransClient test passed!");
+//        tests.complexTransNumber();
+//        System.out.println("complexTransNumber test passed!");
+//        tests.complexTransMedian();
+//        System.out.println("complexTransMedian test passed!");
+//        tests.complexTransTime();
+//        System.out.println("complexTransTime test passed!");
+//        System.out.println();
+//        BuyCompTest buyCompTest = new BuyCompTest();
+//        buyCompTest.compare();
+//        System.out.println("buyCompTest  passed!");
+//
+//        SellCompTest sellCompTest = new SellCompTest();
+//        sellCompTest.compare();
+//        System.out.println("sellCompTest passed!");
+//
+//        TimeCompTest timeCompTest = new TimeCompTest();
+//        timeCompTest.compare();
+//        System.out.println("timeCompTest passed!");
+//        System.out.println();
+//        System.out.println("Running complex test...");
+//        System.out.println();
 
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
