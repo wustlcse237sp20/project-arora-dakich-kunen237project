@@ -8,11 +8,27 @@ public class Main {
 	// write your code here
 
         VirtualStockMarketTest tests = new VirtualStockMarketTest();
-        tests.simpleTransTest();
-        tests.twoBOneS();
-        tests.twoSOneB();
+        tests.simpleTransClient();
+        tests.simpleTransMedian();
+        tests.simpleTransTime();
+        tests.twoBOneSClient();
+        tests.twoBOneSNumber();
+        tests.twoBOneSMedian();
+        tests.twoSOneBClient();
+        tests.twoSOneBMedian();
         tests.sellerMoreExpensive();
-        tests.complexTrans();
+        tests.complexTransClient();
+        tests.complexTransNumber();
+        tests.complexTransMedian();
+        tests.complexTransTime();
 
+        BuyCompTest buyCompTest = new BuyCompTest();
+        buyCompTest.compare();
+
+        SellCompTest sellCompTest = new SellCompTest();
+        sellCompTest.compare();
+
+        TimeCompTest timeCompTest = new TimeCompTest();
+        timeCompTest.compare();
     }
 }
