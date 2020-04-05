@@ -30,9 +30,10 @@ User stories to be completed next iteration:
 
 Is there anything that you implemented but doesn't currently work?
 
-The UI is displayed but is not functional.
-What commands are needed to compile and run your code from the command line?
+- The UI is displayed but is not functional.
 
+What commands are needed to compile and run your code from the command line?
+N/A
 
 Summary:
 Our project emulates the stock market. It’s a virtual stock market. We are looking at the transactions that occur in one day. They are in the form of a purchase or sale. Basically, the program itself isn’t just using the stock market. You are really a broker and need to find the best match between buyer and seller of a given stock.
