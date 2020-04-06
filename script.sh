@@ -10,5 +10,6 @@ java -cp ../../ com/company/Main
 cd ..
 cd ..
 cd ..
+cd GUI
 javac GUI.java
 java GUI
