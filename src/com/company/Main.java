@@ -1,6 +1,9 @@
 package com.company;
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
@@ -108,4 +111,95 @@ public class Main {
 
         }
     }
+    public static ArrayList<Order> readInput(String fileName, ArrayList<String> clientNames, ArrayList<String> equityNames) {
+        ArrayList<Order> orderList = new ArrayList<>();
+        Scanner input = null;
+        try{
+             input = new Scanner(new File("../../../input/" + fileName));
+        }
+        catch(FileNotFoundException s){
+        //throw exception here
+        }
+        while(input.hasNext()){
+            String contents = input.next();
+            String[] elements = contents.split(" ");
+            int clientID, equityID, timestamp,quantity, price;
+            if(elements[1].length() > 1 && elements[1].charAt(0) == 'C' && Character.isDigit(elements[1].charAt(1))){
+                clientID = Integer.parseInt(elements[1].substring(1));
+            } else {
+                clientID = clientNames.indexOf(elements[1]);
+                if(clientID == -1) {
+                    //throw exception here--need to add
+                }
+            }
+            if(elements[3].length() > 1 && elements[3].charAt(0) == 'E' && Character.isDigit(elements[3].charAt(1))){
+                equityID = Integer.parseInt(elements[3].substring(1));
+            } else {
+                equityID = equityNames.indexOf(elements[3]);
+                if(equityID == -1) {
+                    //throw exception here--need to add
+                }
+            }
+            timestamp = Integer.parseInt(elements[0]);
+            price = Integer.parseInt(elements[4]);
+            quantity = Integer.parseInt(elements[5]);
+            orderList.add(new Order(timestamp, clientID, equityID, price, quantity, elements[2].equals("BUY")));
+
+        }
+        input.close();
+
+        return orderList;
+    }
+
+    public static ArrayList<String> readClients() {
+        ArrayList<String> clientNames = new ArrayList<>();
+        Scanner input = null;
+        try {
+            input = new Scanner(new File("../../../clients.txt"));
+        } catch (FileNotFoundException s) {
+            //throw exception here
+        }
+        while (input.hasNext()) {
+            clientNames.add(input.next());
+        }
+        input.close();
+
+        return clientNames;
+    }
+
+    public static ArrayList<String> readEquities() {
+        ArrayList<String> equityNames = new ArrayList<>();
+        Scanner input = null;
+        try {
+            input = new Scanner(new File("../../../equities.txt"));
+        } catch (FileNotFoundException s) {
+            //throw exception here
+        }
+        while (input.hasNext()) {
+            equityNames.add(input.next());
+        }
+        input.close();
+
+        return equityNames;
+    }
+
+    public static ArrayList<Order> generateInput(String fileName, int orderCount) {
+
+        try {
+            FileWriter writer = new FileWriter("../../../input/" + fileName);
+            for (int i = 0; i < orderCount; i++) {
+                writer.write();
+            }
+
+        } catch(IOException e) {
+
+        }
+
+
+    }
+
+
+
+
+
 }
