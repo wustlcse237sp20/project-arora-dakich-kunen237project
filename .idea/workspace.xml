@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/equities.txt" beforeDir="false" afterPath="$PROJECT_DIR$/equities.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,12 +22,12 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.company.Main" />
+      <option name="MAIN_CLASS_NAME" value="GUI" />
       <module name="project-arora-dakich-kunen237project" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
@@ -58,6 +54,14 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587330735879">
+      <screen x="0" y="23" width="1792" height="1036" />
+    </state>
+    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587330735879" />
+    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587330726801">
+      <screen x="0" y="23" width="1792" height="1036" />
+    </state>
+    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587330726801" />
     <state x="600" y="461" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586898277513">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
