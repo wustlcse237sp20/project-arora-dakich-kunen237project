@@ -17,7 +17,6 @@ import java.awt.Font;
 public class GUI {
 
 	private JFrame frame;
-	boolean file = false;
 
 
 
