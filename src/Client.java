@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.Objects;
 
 public class Client { //keeps track of the clients progress
