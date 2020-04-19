@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -64,6 +65,28 @@ public class InputFile {
         btnRandomInputButton.setForeground(Color.GREEN);
         btnRandomInputButton.setBounds(6, 59, 170, 29);
         frame.getContentPane().add(btnRandomInputButton);
+        btnRandomInputButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String numOrders = (String)JOptionPane.showInputDialog(
+                        frame,
+                        "Please input the number of orders",
+                        "",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+                String priceLimit = (String)JOptionPane.showInputDialog(
+                        frame,
+                        "What is the price limit?",
+                        "",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+            }
+        });
+
 
         randomTextField = new JTextField();
         randomTextField.setBounds(223, 59, 130, 26);
