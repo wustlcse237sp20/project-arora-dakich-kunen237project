@@ -11,10 +11,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.Font;
 
 public class GUI {
 
 	private JFrame frame;
+
+
 
 	/**
 	 * Launch the application.
@@ -30,6 +34,7 @@ public class GUI {
 				}
 			}
 		});
+
 	}
 
 	/**
@@ -44,113 +49,89 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 218, 185));
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 
 		JTextArea welcome = new JTextArea();
-		springLayout.putConstraint(SpringLayout.NORTH, welcome, 24, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, welcome, -331, SpringLayout.EAST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, welcome, 46, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, welcome, -105, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, welcome, 25, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, welcome, -350, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, welcome, 45, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, welcome, -69, SpringLayout.EAST, frame.getContentPane());
+		welcome.setBackground(new Color(255, 255, 255));
+		welcome.setForeground(new Color(153, 50, 204));
+		welcome.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		welcome.setEditable(false);
 		frame.getContentPane().add(welcome);
-		welcome.setText("Welcome to a virtual Stock Market");
+		welcome.setText(" Welcome to a virtual Stock Market!");
 
-		JButton btnInputFileHere = new JButton("Input file here");
+
+		JButton btnClickHereFor = new JButton("Click here for more information");
+		springLayout.putConstraint(SpringLayout.NORTH, btnClickHereFor, 31, SpringLayout.SOUTH, welcome);
+		springLayout.putConstraint(SpringLayout.WEST, btnClickHereFor, 0, SpringLayout.WEST, frame.getContentPane());
+		btnClickHereFor.setForeground(Color.CYAN);
+		btnClickHereFor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(frame, "To run our program please click on the input file button. You will have the option\nto input a file or generate a random"
+						+ " input. After you have done this, you will be able\nto click on the execute button to run the program. Once the program has run, you\ncan click on"
+						+ " the median output and time traveler output buttons to see information\nregarding the transactions that took place.");
+			}
+		});
+		frame.getContentPane().add(btnClickHereFor);
+
+
+		JButton btnInputFileHere = new JButton("Input file");
+		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 150, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 53, SpringLayout.WEST, frame.getContentPane());
+		btnInputFileHere.setForeground(Color.RED);
 		frame.getContentPane().add(btnInputFileHere);
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String fileName = (String)JOptionPane.showInputDialog(
-						frame,
-						"What is the name of the input file?",
-						"",
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						null,
-						null);
-				System.out.println(fileName);
+				InputFile inputFile = new InputFile();
+				inputFile.fileFrame();
 			}
 		});
 
-		JButton btnClickHereFor = new JButton("Click here for more information");
-		btnClickHereFor.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(frame, "program information");
-			}
-		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnClickHereFor, 76, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 43, SpringLayout.SOUTH, btnClickHereFor);
-		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 0, SpringLayout.WEST, btnClickHereFor);
-		springLayout.putConstraint(SpringLayout.WEST, btnClickHereFor, 34, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(btnClickHereFor);
 
 		JButton btnExecute = new JButton("Execute");
+		btnExecute.setEnabled(false);
+		btnExecute.setForeground(Color.ORANGE);
+		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 0, SpringLayout.NORTH, btnClickHereFor);
+		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -29, SpringLayout.EAST, frame.getContentPane());
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 76, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnExecute);
 
 		JButton btnMedianOutput = new JButton("Median output");
-		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 28, SpringLayout.SOUTH, btnExecute);
+		btnMedianOutput.setEnabled(false);
+		btnMedianOutput.setForeground(Color.BLUE);
+		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 0, SpringLayout.NORTH, btnInputFileHere);
+		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnMedianOutput);
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
+		btnTimeTravelerOutput.setEnabled(false);
+		btnTimeTravelerOutput.setForeground(Color.MAGENTA);
+		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 36, SpringLayout.SOUTH, btnMedianOutput);
 		btnTimeTravelerOutput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(frame, "Time traveler output");
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 36, SpringLayout.SOUTH, btnMedianOutput);
-		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, 0, SpringLayout.EAST, btnTimeTravelerOutput);
 		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnTimeTravelerOutput);
 
-		JButton btnRandomInputButton = new JButton("Generate random input");
-		btnRandomInputButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String name = (String)JOptionPane.showInputDialog(
-						frame,
-						"What is the name of the input file?",
-						"",
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						null,
-						null);
-				String numOrders = (String)JOptionPane.showInputDialog(
-						frame,
-						"Please input the number of orders",
-						"",
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						null,
-						null);
-				String priceLimit = (String)JOptionPane.showInputDialog(
-						frame,
-						"What is the price limit?",
-						"",
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						null,
-						null);
-				System.out.println(name);
-				System.out.println(numOrders);
-				System.out.println(priceLimit);
-			}
-		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnRandomInputButton, 33, SpringLayout.SOUTH, btnInputFileHere);
-		springLayout.putConstraint(SpringLayout.WEST, btnRandomInputButton, 10, SpringLayout.WEST, frame.getContentPane());
-		frame.getContentPane().add(btnRandomInputButton);
+
 
 
 	}
 }
-
