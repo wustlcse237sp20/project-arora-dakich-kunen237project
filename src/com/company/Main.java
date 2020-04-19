@@ -1,6 +1,9 @@
 package com.company;
 
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
@@ -107,5 +110,10 @@ public class Main {
                     vs.getClients().get(i).getNetTrade());
 
         }
+        FileInputOutput fileHandler = new FileInputOutput("example");
+        orderList = fileHandler.generateInput(1000,500, 100);
+        vs = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(), fileHandler.getEquityNames().size());
+        vs.computeTrans();
+        fileHandler.writeOutput(vs.getTransactionCount(), vs.getTransactions(), vs.getClients());
     }
 }
