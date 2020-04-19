@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="" />
+    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/FileInputOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/FileInputOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/InputFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/InputFile.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,7 +31,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="GUI" />
+      <option name="MAIN_CLASS_NAME" value="com.company.GUI" />
       <module name="project-arora-dakich-kunen237project" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -54,17 +59,84 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587330735879">
+    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587331661305">
       <screen x="0" y="23" width="1792" height="1036" />
     </state>
-    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587330735879" />
-    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587330726801">
+    <state x="364" y="204" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587331661305" />
+    <state x="712" y="250" key="#com.intellij.ide.util.MemberChooser" timestamp="1587333273739">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state x="712" y="250" key="#com.intellij.ide.util.MemberChooser/0.23.1792.1042@0.23.1792.1042" timestamp="1587333273739" />
+    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587331658638">
       <screen x="0" y="23" width="1792" height="1036" />
     </state>
-    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587330726801" />
+    <state x="637" y="333" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1792.1036@0.23.1792.1036" timestamp="1587331658638" />
+    <state width="1743" height="318" key="GridCell.Tab.0.bottom" timestamp="1587333690677">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="318" key="GridCell.Tab.0.bottom/0.23.1792.1036@0.23.1792.1036" timestamp="1587332541291" />
+    <state width="1743" height="318" key="GridCell.Tab.0.bottom/0.23.1792.1042@0.23.1792.1042" timestamp="1587333690677" />
+    <state width="1743" height="348" key="GridCell.Tab.0.bottom/0.23.1792.1044@0.23.1792.1044" timestamp="1587332941097" />
+    <state width="1743" height="318" key="GridCell.Tab.0.center" timestamp="1587333690676">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="318" key="GridCell.Tab.0.center/0.23.1792.1036@0.23.1792.1036" timestamp="1587332541291" />
+    <state width="1743" height="318" key="GridCell.Tab.0.center/0.23.1792.1042@0.23.1792.1042" timestamp="1587333690676" />
+    <state width="1743" height="348" key="GridCell.Tab.0.center/0.23.1792.1044@0.23.1792.1044" timestamp="1587332941095" />
+    <state width="1743" height="318" key="GridCell.Tab.0.left" timestamp="1587333690675">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="318" key="GridCell.Tab.0.left/0.23.1792.1036@0.23.1792.1036" timestamp="1587332541290" />
+    <state width="1743" height="318" key="GridCell.Tab.0.left/0.23.1792.1042@0.23.1792.1042" timestamp="1587333690675" />
+    <state width="1743" height="348" key="GridCell.Tab.0.left/0.23.1792.1044@0.23.1792.1044" timestamp="1587332941095" />
+    <state width="1743" height="318" key="GridCell.Tab.0.right" timestamp="1587333690677">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="318" key="GridCell.Tab.0.right/0.23.1792.1036@0.23.1792.1036" timestamp="1587332541291" />
+    <state width="1743" height="318" key="GridCell.Tab.0.right/0.23.1792.1042@0.23.1792.1042" timestamp="1587333690677" />
+    <state width="1743" height="348" key="GridCell.Tab.0.right/0.23.1792.1044@0.23.1792.1044" timestamp="1587332941096" />
+    <state width="1743" height="348" key="GridCell.Tab.1.bottom" timestamp="1587333054636">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="348" key="GridCell.Tab.1.bottom/0.23.1792.1042@0.23.1792.1042" timestamp="1587333054636" />
+    <state width="1743" height="348" key="GridCell.Tab.1.bottom/0.23.1792.1043@0.23.1792.1043" timestamp="1587332848661" />
+    <state width="1743" height="348" key="GridCell.Tab.1.bottom/0.23.1792.1044@0.23.1792.1044" timestamp="1587332940899" />
+    <state width="1743" height="348" key="GridCell.Tab.1.bottom/0.23.1792.1045@0.23.1792.1045" timestamp="1587332989565" />
+    <state width="1743" height="348" key="GridCell.Tab.1.center" timestamp="1587333054635">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="348" key="GridCell.Tab.1.center/0.23.1792.1042@0.23.1792.1042" timestamp="1587333054635" />
+    <state width="1743" height="348" key="GridCell.Tab.1.center/0.23.1792.1043@0.23.1792.1043" timestamp="1587332848661" />
+    <state width="1743" height="348" key="GridCell.Tab.1.center/0.23.1792.1044@0.23.1792.1044" timestamp="1587332940899" />
+    <state width="1743" height="348" key="GridCell.Tab.1.center/0.23.1792.1045@0.23.1792.1045" timestamp="1587332989565" />
+    <state width="1743" height="348" key="GridCell.Tab.1.left" timestamp="1587333054635">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="348" key="GridCell.Tab.1.left/0.23.1792.1042@0.23.1792.1042" timestamp="1587333054635" />
+    <state width="1743" height="348" key="GridCell.Tab.1.left/0.23.1792.1043@0.23.1792.1043" timestamp="1587332848660" />
+    <state width="1743" height="348" key="GridCell.Tab.1.left/0.23.1792.1044@0.23.1792.1044" timestamp="1587332940898" />
+    <state width="1743" height="348" key="GridCell.Tab.1.left/0.23.1792.1045@0.23.1792.1045" timestamp="1587332989564" />
+    <state width="1743" height="348" key="GridCell.Tab.1.right" timestamp="1587333054636">
+      <screen x="0" y="23" width="1792" height="1042" />
+    </state>
+    <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1042@0.23.1792.1042" timestamp="1587333054636" />
+    <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1043@0.23.1792.1043" timestamp="1587332848661" />
+    <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1044@0.23.1792.1044" timestamp="1587332940899" />
+    <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1045@0.23.1792.1045" timestamp="1587332989565" />
     <state x="600" y="461" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586898277513">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="600" y="461" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1792.1120@0.0.1792.1120" timestamp="1586898277513" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/FileInputOutput.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

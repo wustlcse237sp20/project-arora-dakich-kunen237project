@@ -3,5 +3,7 @@ project-arora-dakich-kunen237project.iml
 */.DS_Store
 */*/.DS_Store
 */*/*/.DS_Store
+input
+output
 out
 .gitignore

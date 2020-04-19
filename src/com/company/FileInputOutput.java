@@ -90,8 +90,8 @@ public class FileInputOutput {
                 }
             }
             timestamp = Integer.parseInt(elements[0]);
-            price = Integer.parseInt(elements[4]);
-            quantity = Integer.parseInt(elements[5]);
+            price = Integer.parseInt(elements[4].substring(1));
+            quantity = Integer.parseInt(elements[5].substring(1));
             orderList.add(new Order(timestamp, clientID, equityID, price, quantity, elements[2].equals("BUY")));
         }
         input.close();

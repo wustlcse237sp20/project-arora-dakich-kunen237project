@@ -1,3 +1,7 @@
+package com.company;
+
+import com.company.VirtualStockMarket;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,6 +21,7 @@ import java.awt.Font;
 public class GUI {
 
 	private JFrame frame;
+	private InputFile inputFile;
 
 
 
@@ -83,7 +88,6 @@ public class GUI {
 		});
 		frame.getContentPane().add(btnClickHereFor);
 
-
 		JButton btnInputFileHere = new JButton("Input file");
 		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 150, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 53, SpringLayout.WEST, frame.getContentPane());
@@ -92,20 +96,26 @@ public class GUI {
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				InputFile inputFile = new InputFile();
+				inputFile = new InputFile();
 				inputFile.fileFrame();
+				/*if (inputFile.getStockMarket() != null) {
+					btnExecute.setEnabled(true);
+				}*/
 			}
 		});
 
-
 		JButton btnExecute = new JButton("Execute");
-		btnExecute.setEnabled(false);
+		//btnExecute.setEnabled(false);
 		btnExecute.setForeground(Color.ORANGE);
 		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 0, SpringLayout.NORTH, btnClickHereFor);
 		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -29, SpringLayout.EAST, frame.getContentPane());
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				VirtualStockMarket stockMarket = inputFile.getStockMarket();
+				stockMarket.computeTrans();
+				inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
+						stockMarket.getTransactions(),stockMarket.getClients());
 			}
 		});
 		frame.getContentPane().add(btnExecute);
@@ -129,8 +139,6 @@ public class GUI {
 		});
 		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnTimeTravelerOutput);
-
-
 
 
 	}

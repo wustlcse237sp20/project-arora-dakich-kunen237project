@@ -1,3 +1,5 @@
+package com.company;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,6 +11,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class InputFile {
 
@@ -17,6 +20,8 @@ public class InputFile {
     private JTextField randomTextField;
     private JTextField clientTextField;
     private JTextField stockTextField;
+    private VirtualStockMarket stockMarket;
+    private FileInputOutput fileHandler;
 
     /**
      * Launch the application.
@@ -51,15 +56,29 @@ public class InputFile {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JButton btnInputFileButton = new JButton("Input file");
-        btnInputFileButton.setForeground(new Color(255, 0, 0));
-        btnInputFileButton.setBounds(6, 18, 117, 29);
-        frame.getContentPane().add(btnInputFileButton);
-
         inputFileTextField = new JTextField();
         inputFileTextField.setBounds(168, 18, 130, 26);
         frame.getContentPane().add(inputFileTextField);
         inputFileTextField.setColumns(10);
+
+        JButton btnInputFileButton = new JButton("Input file");
+        btnInputFileButton.setForeground(new Color(255, 0, 0));
+        btnInputFileButton.setBounds(6, 18, 117, 29);
+        frame.getContentPane().add(btnInputFileButton);
+        btnInputFileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                fileHandler = new FileInputOutput(inputFileTextField.getText());
+                ArrayList<Order> orderList = fileHandler.readInput();
+                stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
+                        fileHandler.getEquityNames().size());
+            }
+        });
+
+        randomTextField = new JTextField();
+        randomTextField.setBounds(223, 59, 130, 26);
+        frame.getContentPane().add(randomTextField);
+        randomTextField.setColumns(10);
 
         JButton btnRandomInputButton = new JButton("Generate random input");
         btnRandomInputButton.setForeground(Color.GREEN);
@@ -84,14 +103,21 @@ public class InputFile {
                         null,
                         null,
                         null);
+                String quantityLimit = (String)JOptionPane.showInputDialog(
+                        frame,
+                        "What is the quantity limit?",
+                        "",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        null);
+                fileHandler = new FileInputOutput(inputFileTextField.getText());
+                ArrayList<Order> orderList = fileHandler.generateInput(Integer.parseInt(numOrders),
+                        Integer.parseInt(priceLimit), Integer.parseInt(quantityLimit));
+                stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
+                        fileHandler.getEquityNames().size());
             }
         });
-
-
-        randomTextField = new JTextField();
-        randomTextField.setBounds(223, 59, 130, 26);
-        frame.getContentPane().add(randomTextField);
-        randomTextField.setColumns(10);
 
         clientTextField = new JTextField();
         clientTextField.setBounds(45, 260, 185, 26);
@@ -134,5 +160,13 @@ public class InputFile {
         frame.getContentPane().add(btnDoneButton);
 
 
+    }
+
+    public VirtualStockMarket getStockMarket() {
+        return stockMarket;
+    }
+
+    public FileInputOutput getFileHandler() {
+        return fileHandler;
     }
 }
