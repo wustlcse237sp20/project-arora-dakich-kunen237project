@@ -11,7 +11,12 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class InputFile {
 
@@ -23,32 +28,10 @@ public class InputFile {
     private VirtualStockMarket stockMarket;
     private FileInputOutput fileHandler;
 
-    /**
-     * Launch the application.
-     */
-    public static void fileFrame() {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    InputFile window = new InputFile();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the application.
-     */
     public InputFile() {
         initialize();
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
     private void initialize() {
         frame = new JFrame();
         frame.getContentPane().setBackground(new Color(240, 248, 255));
@@ -111,7 +94,7 @@ public class InputFile {
                         null,
                         null,
                         null);
-                fileHandler = new FileInputOutput(inputFileTextField.getText());
+                fileHandler = new FileInputOutput(randomTextField.getText());
                 ArrayList<Order> orderList = fileHandler.generateInput(Integer.parseInt(numOrders),
                         Integer.parseInt(priceLimit), Integer.parseInt(quantityLimit));
                 stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
@@ -133,32 +116,119 @@ public class InputFile {
         btnAddClientButton.setForeground(new Color(0, 0, 255));
         btnAddClientButton.setBounds(45, 298, 117, 29);
         frame.getContentPane().add(btnAddClientButton);
+        btnAddClientButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    FileWriter writer = new FileWriter("clients.txt",true);
+                    writer.write(clientTextField.getText() + "\n");
+                    writer.close();
+                } catch (IOException s) {
+                    //throw exception here
+                }
+            }
+        });
 
         JButton btnRemoveClientButton = new JButton("Remove client");
         btnRemoveClientButton.setForeground(Color.ORANGE);
         btnRemoveClientButton.setBounds(45, 339, 117, 29);
         frame.getContentPane().add(btnRemoveClientButton);
+        btnRemoveClientButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ArrayList<String> clientNames = new ArrayList<>();
+                Scanner input = null;
+                try {
+                    input = new Scanner(new File("clients.txt"));
+                } catch (FileNotFoundException s) {
+                    //throw exception here
+                }
+                while (input.hasNextLine()) {
+                    clientNames.add(input.nextLine());
+                }
+                input.close();
+                int index = clientNames.indexOf(clientTextField.getText());
+                if (index == -1) {
+                    return;
+                }
+                clientNames.remove(index);
+                try {
+                    FileWriter writer = new FileWriter("clients.txt");
+                    for (String client : clientNames) {
+                        writer.write(client + "\n");
+                    }
+                    writer.close();
+                } catch (IOException s) {
+                    //throw exception here
+                }
+            }
+        });
 
         JButton btnAddStockButton = new JButton("Add stock");
         btnAddStockButton.setForeground(new Color(0, 0, 255));
         btnAddStockButton.setBounds(397, 298, 117, 29);
         frame.getContentPane().add(btnAddStockButton);
+        btnAddStockButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    FileWriter writer = new FileWriter("equities.txt",true);
+                    writer.write(stockTextField.getText() + "\n");
+                    writer.close();
+                } catch (IOException s) {
+                    //throw exception here
+                }
+            }
+        });
 
         JButton btnRemoveStockButton = new JButton("Remove stock");
         btnRemoveStockButton.setForeground(Color.ORANGE);
         btnRemoveStockButton.setBounds(397, 339, 117, 29);
         frame.getContentPane().add(btnRemoveStockButton);
+        btnRemoveStockButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ArrayList<String> equityNames = new ArrayList<>();
+                Scanner input = null;
+                try {
+                    input = new Scanner(new File("equities.txt"));
+                } catch (FileNotFoundException s) {
+                    //throw exception here
+                }
+                while (input.hasNextLine()) {
+                    equityNames.add(input.nextLine());
+                }
+                input.close();
+                int index = equityNames.indexOf(stockTextField.getText());
+                if (index == -1) {
+                    return;
+                }
+                equityNames.remove(index);
+                try {
+                    FileWriter writer = new FileWriter("equities.txt");
+                    for (String equity : equityNames) {
+                        writer.write(equity + "\n");
+                    }
+                    writer.close();
+                } catch (IOException s) {
+                    //throw exception here
+                }
+            }
+        });
 
         JButton btnDoneButton = new JButton("Done");
         btnDoneButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                frame.setVisible(false);
-            }
+            public void mouseClicked(MouseEvent e) { frame.setVisible(false); }
         });
         btnDoneButton.setBounds(455, 531, 117, 29);
         frame.getContentPane().add(btnDoneButton);
 
+        try {
+            this.frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

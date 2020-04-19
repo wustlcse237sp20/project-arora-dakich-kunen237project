@@ -97,7 +97,7 @@ public class GUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				inputFile = new InputFile();
-				inputFile.fileFrame();
+				//inputFile.fileFrame();
 				/*if (inputFile.getStockMarket() != null) {
 					btnExecute.setEnabled(true);
 				}*/
