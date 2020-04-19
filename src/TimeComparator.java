@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.Comparator;
 
 public class TimeComparator implements Comparator<Pair<Order,Order>> {

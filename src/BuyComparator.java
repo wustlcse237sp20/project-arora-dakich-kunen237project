@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.Comparator;
 
 public class BuyComparator implements Comparator<Order> {

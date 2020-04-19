@@ -1,5 +1,3 @@
-package com.company;
-
 // Pair class
 //Obtained from this URL https://www.techiedelight.com/implement-pair-class-java/
 class Pair<U, V>

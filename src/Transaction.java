@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.Objects;
 
 public class Transaction { //information for each transaction that took place
