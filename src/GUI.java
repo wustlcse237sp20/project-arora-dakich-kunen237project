@@ -1,18 +1,10 @@
-package com.company;
-
-import com.company.VirtualStockMarket;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.Color;

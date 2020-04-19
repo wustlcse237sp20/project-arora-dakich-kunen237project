@@ -1,5 +1,3 @@
-package com.company;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
