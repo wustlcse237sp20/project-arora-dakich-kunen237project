@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd src
-javac  GUI.java
+javac GUI.java
 java GUI

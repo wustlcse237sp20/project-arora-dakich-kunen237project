@@ -46,6 +46,7 @@ class VirtualStockMarketTest {
         vs.computeTrans();
         ArrayList<Pair<Integer, Integer>> correctTime = new ArrayList<>();
         correctTime.add(Pair.of(-1, -1));
+        Assert.assertEquals(correctTime, vs.getTimeTravelers());
     }
 
     @Test
@@ -352,6 +353,7 @@ class VirtualStockMarketTest {
         ArrayList<Pair<Integer, Integer>> correctTime = new ArrayList<>();
         correctTime.add(Pair.of(2, 3));
         correctTime.add(Pair.of(5, 5));
+        Assert.assertEquals(correctTime, vs.getTimeTravelers());
     }
 
 
