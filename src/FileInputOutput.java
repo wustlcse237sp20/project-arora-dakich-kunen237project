@@ -33,7 +33,7 @@ public class FileInputOutput {
         clientNames = new ArrayList<>();
         Scanner input = null;
         try {
-            input = new Scanner(new File("clients.txt"));
+            input = new Scanner(new File("../clients.txt"));
         } catch (FileNotFoundException s) {
             //throw exception here
         }
@@ -48,7 +48,7 @@ public class FileInputOutput {
         equityNames = new ArrayList<>();
         Scanner input = null;
         try {
-            input = new Scanner(new File("equities.txt"));
+            input = new Scanner(new File("../equities.txt"));
         } catch (FileNotFoundException s) {
             //throw exception here
         }
@@ -62,7 +62,7 @@ public class FileInputOutput {
         ArrayList<Order> orderList = new ArrayList<>();
         Scanner input = null;
         try{
-            input = new Scanner(new File("input/" + fileName + ".in"));
+            input = new Scanner(new File("../input/" + fileName + ".in"));
         }
         catch(FileNotFoundException s){
             //throw exception here
@@ -99,7 +99,7 @@ public class FileInputOutput {
     public ArrayList<Order> generateInput(int orderCount, int priceLimit, int quantityLimit) {
         ArrayList<Order> orderList = new ArrayList<>();
         try {
-            FileWriter writer = new FileWriter("input/" + fileName + ".in");
+            FileWriter writer = new FileWriter("../input/" + fileName + ".in");
             int absoluteTime = 0;
             for (int i = 0; i < orderCount; i++) {
                 int clientID = (int)(Math.random() * clientNames.size());
@@ -129,7 +129,7 @@ public class FileInputOutput {
     public void writeOutput(int transactionCount, ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions,
                             ArrayList<Client> clients) {
         try {
-            FileWriter writer = new FileWriter("output/" + fileName + ".out");
+            FileWriter writer = new FileWriter("../output/" + fileName + ".out");
             writer.write("---end of day---\n");
             writer.write("orders processed: " + transactionCount + "\n");
             for (Pair<Integer, ArrayList<Transaction>> transList : transactions) {

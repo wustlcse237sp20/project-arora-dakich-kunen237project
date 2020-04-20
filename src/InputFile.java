@@ -118,7 +118,7 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    FileWriter writer = new FileWriter("clients.txt",true);
+                    FileWriter writer = new FileWriter("../clients.txt",true);
                     writer.write(clientTextField.getText() + "\n");
                     writer.close();
                 } catch (IOException s) {
@@ -137,7 +137,7 @@ public class InputFile {
                 ArrayList<String> clientNames = new ArrayList<>();
                 Scanner input = null;
                 try {
-                    input = new Scanner(new File("clients.txt"));
+                    input = new Scanner(new File("../clients.txt"));
                 } catch (FileNotFoundException s) {
                     //throw exception here
                 }
@@ -151,7 +151,7 @@ public class InputFile {
                 }
                 clientNames.remove(index);
                 try {
-                    FileWriter writer = new FileWriter("clients.txt");
+                    FileWriter writer = new FileWriter("../clients.txt");
                     for (String client : clientNames) {
                         writer.write(client + "\n");
                     }
@@ -170,7 +170,7 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    FileWriter writer = new FileWriter("equities.txt",true);
+                    FileWriter writer = new FileWriter("../equities.txt",true);
                     writer.write(stockTextField.getText() + "\n");
                     writer.close();
                 } catch (IOException s) {
@@ -189,7 +189,7 @@ public class InputFile {
                 ArrayList<String> equityNames = new ArrayList<>();
                 Scanner input = null;
                 try {
-                    input = new Scanner(new File("equities.txt"));
+                    input = new Scanner(new File("../equities.txt"));
                 } catch (FileNotFoundException s) {
                     //throw exception here
                 }
@@ -203,7 +203,7 @@ public class InputFile {
                 }
                 equityNames.remove(index);
                 try {
-                    FileWriter writer = new FileWriter("equities.txt");
+                    FileWriter writer = new FileWriter("../equities.txt");
                     for (String equity : equityNames) {
                         writer.write(equity + "\n");
                     }

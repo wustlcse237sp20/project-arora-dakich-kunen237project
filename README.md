@@ -12,6 +12,7 @@ User stories completed this iteration (iteration 2):
 
 User stories for next iteration:
 - Error checking/exceptions.
+- Dialog boxes for all actions performed (success or failure).
 
 What is implemented but doesn't currently work:
 - User interface tends to crash when false/erroneous input is specified. Plan on implementing error checking/exceptions to deal with this.
@@ -20,7 +21,13 @@ What is implemented but doesn't currently work:
 ***IMPORTANT NOTE***
 When specifying the input file name "filename", the file is stored in input/filename.in.
 Corresponding output file is in output/filename.out
-The user interfacce will not display output, you need to navigate to files manually (file can be too long to display).
+The user interface will not display output, you need to navigate to files manually (file can be too long to display).
+
+HOW TO RUN:
+- Run the script with ./script.sh
+- "Generate random input" will add input file to input/ directory (if filename given is x, then input/x.in will be written)
+- Generate output by pressing "Execute" (will write to outpu/x.out)
+- Can re-run existing input file with "Input file" (make sure that if x is typed in, input/x.in exists)
 
 Feedback from iteration 1:
 - Removed .idea from .gitignore
