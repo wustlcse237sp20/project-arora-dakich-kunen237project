@@ -1,9 +1,37 @@
 # cse237-project: Virtual Stock Market
 Members: Aaron Arora, Tori Dakich, Jeremy Kunen
 
-Iteration 1
+User stories completed this iteration (iteration 2):
 
-User stories completed this iteration:
+- Real names are given for equities and stored in equities.txt. User can enter and remove names.
+- Real names are given for clients and stored in clients.txt. User can enter and remove names.
+- Merged stock market main execution and input codes with user interface.
+- Improved user interface aesthetics.
+- User can generate random input given price limit and quantity limit. Input gets stored to a file.
+- When main stock market algorithhm is executed, verbose output is written to output file with same name as input file (except .out instead of .in).
+
+User stories for next iteration:
+- Error checking/exceptions.
+
+What is implemented but doesn't currently work:
+- User interface tends to crash when false/erroneous input is specified. Plan on implementing error checking/exceptions to deal with this.
+- Median and time travlelers algorithms implemented but not yet runnable from the UI.
+
+***IMPORTANT NOTE***
+When specifying the input file name "filename", the file is stored in input/filename.in.
+Corresponding output file is in output/filename.out
+The user interfacce will not display output, you need to navigate to files manually (file can be too long to display).
+
+Feedback from iteration 1:
+- Removed .idea from .gitignore
+- Added missing asserts to tests
+- Assigning team members to user stories on Kanban
+- Deleted testing branch
+- In response to code being "hard to follow" the code is rather complex and while comments can help, the user needs to spend larger amount of time than usual understanding the full mechanisms. Not much can be done about that, code had to be structured in this fashion for the algorithm to have all the features we wanted.
+- In response to "branches missing/incomplete" we have tried to organize branches to the best of our abilities. Each branch is mutually exclusive and independent of each other (which was the expectation).
+- In response to "commented out code in main" the main class is irrelevant for this iteration. Should only focus on GUI related code this time.
+
+Iteration 1
 
 - User can request to buy a stock.
 - User can request to sell a stock.
@@ -16,26 +44,8 @@ User stories completed this iteration:
 - Time traveler tests completed.
 - Verbose console output.
 
-User stories to be completed next iteration:
-
-- Real names for equities.
-- Real names for clients.
-- Files for equity and client names.
-- Include more specialized tests.
-- Merge with user interface.
-- Improve user interface aesthetics.
-- Error checking/exceptions.
-- Random input generator.
-- Ability to input file names in command line arguments.
-
-Is there anything that you implemented but doesn't currently work?
-
-- The UI is displayed but is not functional.
-
 What commands are needed to compile and run your code from the command line?
-- We are including a script that will run the code and display the output.
-- This includes a nonfunctional UI appearing.
-- Please note that there are  multiple tests in the code that follow TTD guidelines but in order to run them you must use intellij. 
+- We are including a script that will run the code and display the user interface.
 - You cannot use eclipse because our project was developed in intellij.
 
 Summary:
