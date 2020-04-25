@@ -9,6 +9,7 @@ public class VirtualStockMarket {
     private int clientCount;
     private int equityCount;
     private ArrayList<Client> clients;
+    private ArrayList<Transaction> currentTrans;
     private ArrayList<Integer> currentMedians;
     private ArrayList<PriorityQueue<Integer>> lowTransactions; //equity values below the median
     private ArrayList<PriorityQueue<Integer>> highTransactions; //equity values above the median
@@ -27,6 +28,7 @@ public class VirtualStockMarket {
         this.clientCount = clientCount;
         this.equityCount = equityCount;
         this.clients = new ArrayList<>(clientCount);
+        this.currentTrans = new ArrayList<>();
         this.currentMedians = new ArrayList<>(equityCount); //keeps track of the current list of medians
         this.lowTransactions = new ArrayList<>(equityCount);
         this.highTransactions = new ArrayList<>(equityCount);
@@ -82,45 +84,11 @@ public class VirtualStockMarket {
 
     public void computeTrans() { //process orders, store data in member variables
         //here we take in the list of orders and compute all the transactions
-        ArrayList<Transaction> currentTrans = new ArrayList<>();
         int currentTimestamp = 0;
         for (int i = 0; i < orderList.size(); i++) {  //iterate through the orders
-            orderList.get(i).setRelTimestamp(i);
-            computeTime(i);
-            if(orderList.get(i).getTimestamp() != currentTimestamp) {
-                if (!currentTrans.isEmpty()) {
-                    transactions.add(Pair.of(currentTimestamp, currentTrans));
-                    currentTrans = new ArrayList<>();
-                }
-                if (Collections.max(currentMedians) != 0) {
-                    medians.add(Pair.of(currentTimestamp, new ArrayList<>(currentMedians)));
-                }
-                currentTimestamp = orderList.get(i).getTimestamp();
-            }
-            Transaction transaction;
-            if (orderList.get(i).getType()) {
-                transaction = getTransBuyer(i);
-            } else {
-                transaction = getTransSeller(i);
-            }
-            while(transaction != null) {
-                computeMedian(transaction, i);
-                currentTrans.add(transaction);
-                transactionCount++;
-                if (orderList.get(i).getType()) {
-                    transaction = getTransBuyer(i);
-                } else {
-                    transaction = getTransSeller(i);
-                }
-            }
-
-            if(orderList.get(i).getQuantity() != 0) {
-                if(orderList.get(i).getType()) {
-                    buyOrders.get(orderList.get(i).getEquityID()).add(orderList.get(i));
-                } else {
-                    sellOrders.get(orderList.get(i).getEquityID()).add(orderList.get(i));
-                }
-            }
+            currentTimestamp = updateData(currentTimestamp, i);
+            generateTrans(i);
+            storeOrder(i);
         }
         if (!currentTrans.isEmpty()) {
             transactions.add(Pair.of(currentTimestamp, currentTrans));
@@ -131,16 +99,64 @@ public class VirtualStockMarket {
         generateTimeList();
     }
 
+    //called from computeTrans: updates metadata before proceeding with main transaction part
+    private int updateData(int currentTimestamp, int orderIndex) {
+        orderList.get(orderIndex).setRelTimestamp(orderIndex);
+        computeTime(orderIndex);
+        if(orderList.get(orderIndex).getTimestamp() != currentTimestamp) {
+            if (!currentTrans.isEmpty()) {
+                transactions.add(Pair.of(currentTimestamp, currentTrans));
+                currentTrans = new ArrayList<>();
+            }
+            if (Collections.max(currentMedians) != 0) {
+                medians.add(Pair.of(currentTimestamp, new ArrayList<>(currentMedians)));
+            }
+            currentTimestamp = orderList.get(orderIndex).getTimestamp();
+        }
+        return currentTimestamp;
+    }
+
+    //called from computeTrans: looks for all possible matching buyers (or sellers) and generates resulting transactions
+    private void generateTrans(int orderIndex) {
+        Transaction transaction;
+        if (orderList.get(orderIndex).getType()) {
+            transaction = getTransBuyer(orderIndex);
+        } else {
+            transaction = getTransSeller(orderIndex);
+        }
+        while(transaction != null) {
+            computeMedian(transaction, orderIndex);
+            currentTrans.add(transaction);
+            transactionCount++;
+            if (orderList.get(orderIndex).getType()) {
+                transaction = getTransBuyer(orderIndex);
+            } else {
+                transaction = getTransSeller(orderIndex);
+            }
+        }
+    }
+
+    //called from computeTrans: if any shares remain from current order, store in appropriate data structure for later
+    private void storeOrder(int orderIndex) {
+        if(orderList.get(orderIndex).getQuantity() != 0) {
+            if(orderList.get(orderIndex).getType()) {
+                buyOrders.get(orderList.get(orderIndex).getEquityID()).add(orderList.get(orderIndex));
+            } else {
+                sellOrders.get(orderList.get(orderIndex).getEquityID()).add(orderList.get(orderIndex));
+            }
+        }
+    }
+
     //given buy order, find optimal sell match, if it exists
     private Transaction getTransBuyer(int orderIndex) {
         if (orderList.get(orderIndex).getQuantity() == 0 || sellOrders.get(orderList.get(orderIndex).getEquityID()).isEmpty() ||
-            orderList.get(orderIndex).getPrice() < sellOrders.get(orderList.get(orderIndex).getEquityID()).peek().getPrice())
+                orderList.get(orderIndex).getPrice() < sellOrders.get(orderList.get(orderIndex).getEquityID()).peek().getPrice())
             return null;
         Order matchedSeller = sellOrders.get(orderList.get(orderIndex).getEquityID()).poll();
         int quantity = Math.min(orderList.get(orderIndex).getQuantity(), matchedSeller.getQuantity());
         Transaction transaction = new Transaction(orderList.get(orderIndex).getClientID(),
-                                matchedSeller.getClientID(), orderList.get(orderIndex).getEquityID(),
-                                matchedSeller.getPrice(), quantity);
+                matchedSeller.getClientID(), orderList.get(orderIndex).getEquityID(),
+                matchedSeller.getPrice(), quantity);
         orderList.get(orderIndex).setQuantity(orderList.get(orderIndex).getQuantity() - quantity);
         matchedSeller.setQuantity(matchedSeller.getQuantity() - quantity);
         updateClients(transaction);
@@ -184,7 +200,7 @@ public class VirtualStockMarket {
     //insert new transaction value to list of equity values (low and/or high) and update median
     private void computeMedian(Transaction transaction,int orderIndex) {
         int equityID = orderList.get(orderIndex).getEquityID();
-        if(transaction.getPrice() < currentMedians.get(equityID)) {
+        if (transaction.getPrice() < currentMedians.get(equityID)) {
            lowTransactions.get(equityID).add(transaction.getPrice());
         } else {
             highTransactions.get(equityID).add(transaction.getPrice());
