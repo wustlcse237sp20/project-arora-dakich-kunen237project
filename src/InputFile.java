@@ -25,9 +25,18 @@ public class InputFile {
     private JTextField stockTextField;
     private VirtualStockMarket stockMarket;
     private FileInputOutput fileHandler;
+    private int status;
 
     public InputFile() {
         initialize();
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     private void initialize() {
@@ -49,10 +58,15 @@ public class InputFile {
         btnInputFileButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                fileHandler = new FileInputOutput(inputFileTextField.getText());
-                ArrayList<Order> orderList = fileHandler.readInput();
-                stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
-                        fileHandler.getEquityNames().size());
+                try {
+                    fileHandler = new FileInputOutput(inputFileTextField.getText());
+                    ArrayList<Order> orderList = fileHandler.readInput();
+                    stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
+                            fileHandler.getEquityNames().size());
+                    status = 1;
+                } catch (RuntimeException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+                }
             }
         });
 
@@ -68,35 +82,40 @@ public class InputFile {
         btnRandomInputButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String numOrders = (String)JOptionPane.showInputDialog(
-                        frame,
-                        "Please input the number of orders",
-                        "",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
-                String priceLimit = (String)JOptionPane.showInputDialog(
-                        frame,
-                        "What is the price limit?",
-                        "",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
-                String quantityLimit = (String)JOptionPane.showInputDialog(
-                        frame,
-                        "What is the quantity limit?",
-                        "",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        null,
-                        null);
-                fileHandler = new FileInputOutput(randomTextField.getText());
-                ArrayList<Order> orderList = fileHandler.generateInput(Integer.parseInt(numOrders),
-                        Integer.parseInt(priceLimit), Integer.parseInt(quantityLimit));
-                stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
-                        fileHandler.getEquityNames().size());
+                try {
+                    String numOrders = (String) JOptionPane.showInputDialog(
+                            frame,
+                            "Please input the number of orders",
+                            "",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            null);
+                    String priceLimit = (String) JOptionPane.showInputDialog(
+                            frame,
+                            "What is the price limit?",
+                            "",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            null);
+                    String quantityLimit = (String) JOptionPane.showInputDialog(
+                            frame,
+                            "What is the quantity limit?",
+                            "",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            null);
+                    fileHandler = new FileInputOutput(randomTextField.getText());
+                    ArrayList<Order> orderList = fileHandler.generateInput(Integer.parseInt(numOrders),
+                            Integer.parseInt(priceLimit), Integer.parseInt(quantityLimit));
+                    stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
+                            fileHandler.getEquityNames().size());
+                    status = 1;
+                } catch (RuntimeException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+                }
             }
         });
 
@@ -118,11 +137,12 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    FileWriter writer = new FileWriter("../clients.txt",true);
+                    //add ../ eventually
+                    FileWriter writer = new FileWriter("clients.txt",true);
                     writer.write(clientTextField.getText() + "\n");
                     writer.close();
                 } catch (IOException s) {
-                    //throw exception here
+                    JOptionPane.showMessageDialog(frame, "Error: clients.txt not found!");
                 }
             }
         });
@@ -134,30 +154,36 @@ public class InputFile {
         btnRemoveClientButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<String> clientNames = new ArrayList<>();
-                Scanner input = null;
                 try {
-                    input = new Scanner(new File("../clients.txt"));
-                } catch (FileNotFoundException s) {
-                    //throw exception here
-                }
-                while (input.hasNextLine()) {
-                    clientNames.add(input.nextLine());
-                }
-                input.close();
-                int index = clientNames.indexOf(clientTextField.getText());
-                if (index == -1) {
-                    return;
-                }
-                clientNames.remove(index);
-                try {
-                    FileWriter writer = new FileWriter("../clients.txt");
-                    for (String client : clientNames) {
-                        writer.write(client + "\n");
+                    ArrayList<String> clientNames = new ArrayList<>();
+                    Scanner input = null;
+                    try {
+                        //add ../ eventually
+                        input = new Scanner(new File("clients.txt"));
+                    } catch (FileNotFoundException s) {
+                        throw new RuntimeException("clients.txt not found!");
                     }
-                    writer.close();
-                } catch (IOException s) {
-                    //throw exception here
+                    while (input.hasNextLine()) {
+                        clientNames.add(input.nextLine());
+                    }
+                    input.close();
+                    int index = clientNames.indexOf(clientTextField.getText());
+                    if (index == -1) {
+                        return;
+                    }
+                    clientNames.remove(index);
+                    try {
+                        //add ../ eventually
+                        FileWriter writer = new FileWriter("clients.txt");
+                        for (String client : clientNames) {
+                            writer.write(client + "\n");
+                        }
+                        writer.close();
+                    } catch (IOException s) {
+                        throw new RuntimeException("clients.txt. not found!");
+                    }
+                } catch (RuntimeException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
             }
         });
@@ -170,11 +196,12 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    FileWriter writer = new FileWriter("../equities.txt",true);
+                    //add ../ eventually
+                    FileWriter writer = new FileWriter("equities.txt",true);
                     writer.write(stockTextField.getText() + "\n");
                     writer.close();
                 } catch (IOException s) {
-                    //throw exception here
+                    JOptionPane.showMessageDialog(frame, "Error: equities.txt not found!");
                 }
             }
         });
@@ -186,30 +213,36 @@ public class InputFile {
         btnRemoveStockButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<String> equityNames = new ArrayList<>();
-                Scanner input = null;
                 try {
-                    input = new Scanner(new File("../equities.txt"));
-                } catch (FileNotFoundException s) {
-                    //throw exception here
-                }
-                while (input.hasNextLine()) {
-                    equityNames.add(input.nextLine());
-                }
-                input.close();
-                int index = equityNames.indexOf(stockTextField.getText());
-                if (index == -1) {
-                    return;
-                }
-                equityNames.remove(index);
-                try {
-                    FileWriter writer = new FileWriter("../equities.txt");
-                    for (String equity : equityNames) {
-                        writer.write(equity + "\n");
+                    ArrayList<String> equityNames = new ArrayList<>();
+                    Scanner input = null;
+                    try {
+                        //add ../ eventually
+                        input = new Scanner(new File("equities.txt"));
+                    } catch (FileNotFoundException s) {
+                        //throw exception here
                     }
-                    writer.close();
-                } catch (IOException s) {
-                    //throw exception here
+                    while (input.hasNextLine()) {
+                        equityNames.add(input.nextLine());
+                    }
+                    input.close();
+                    int index = equityNames.indexOf(stockTextField.getText());
+                    if (index == -1) {
+                        return;
+                    }
+                    equityNames.remove(index);
+                    try {
+                        //add ../ eventually
+                        FileWriter writer = new FileWriter("equities.txt");
+                        for (String equity : equityNames) {
+                            writer.write(equity + "\n");
+                        }
+                        writer.close();
+                    } catch (IOException s) {
+                        //throw exception here
+                    }
+                } catch (RuntimeException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
             }
         });
@@ -221,13 +254,12 @@ public class InputFile {
         });
         btnDoneButton.setBounds(455, 531, 117, 29);
         frame.getContentPane().add(btnDoneButton);
-
+        this.status = 0;
         try {
             this.frame.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public VirtualStockMarket getStockMarket() {

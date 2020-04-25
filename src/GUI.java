@@ -28,6 +28,7 @@ public class GUI {
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+
 				}
 			}
 		});
@@ -88,45 +89,71 @@ public class GUI {
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				inputFile = new InputFile();
-				//inputFile.fileFrame();
-				/*if (inputFile.getStockMarket() != null) {
-					btnExecute.setEnabled(true);
-				}*/
+				try {
+					inputFile = new InputFile();
+				} catch(RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
 
 		JButton btnExecute = new JButton("Execute");
-		//btnExecute.setEnabled(false);
 		btnExecute.setForeground(Color.ORANGE);
 		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 0, SpringLayout.NORTH, btnClickHereFor);
 		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -29, SpringLayout.EAST, frame.getContentPane());
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VirtualStockMarket stockMarket = inputFile.getStockMarket();
-				stockMarket.computeTrans();
-				inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
-						stockMarket.getTransactions(),stockMarket.getClients());
+				try {
+					if (inputFile == null || inputFile.getStatus() == 0) {
+						throw new RuntimeException("No input file chosen!");
+					}
+					VirtualStockMarket stockMarket = inputFile.getStockMarket();
+					stockMarket.computeTrans();
+					inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
+							stockMarket.getTransactions(), stockMarket.getClients());
+					inputFile.setStatus(2);
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
 		frame.getContentPane().add(btnExecute);
 
 		JButton btnMedianOutput = new JButton("Median output");
-		btnMedianOutput.setEnabled(false);
 		btnMedianOutput.setForeground(Color.BLUE);
 		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 0, SpringLayout.NORTH, btnInputFileHere);
 		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnMedianOutput);
+		btnMedianOutput.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					if (inputFile == null || inputFile.getStatus() != 2) {
+						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
+					}
+					JOptionPane.showMessageDialog(frame, "Median output");
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
+			}
+		});
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
-		btnTimeTravelerOutput.setEnabled(false);
+		//btnTimeTravelerOutput.setEnabled(false);
 		btnTimeTravelerOutput.setForeground(Color.MAGENTA);
 		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 36, SpringLayout.SOUTH, btnMedianOutput);
 		btnTimeTravelerOutput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(frame, "Time traveler output");
+				try {
+					if (inputFile == null || inputFile.getStatus() != 2) {
+						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
+					}
+					JOptionPane.showMessageDialog(frame, "Time traveler output");
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
 		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, 0, SpringLayout.EAST, frame.getContentPane());

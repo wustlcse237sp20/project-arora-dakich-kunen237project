@@ -1,3 +1,4 @@
+import javax.management.relation.RoleUnresolved;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -33,9 +34,10 @@ public class FileInputOutput {
         clientNames = new ArrayList<>();
         Scanner input = null;
         try {
-            input = new Scanner(new File("../clients.txt"));
+            //add ../ eventually
+            input = new Scanner(new File("clients.txt"));
         } catch (FileNotFoundException s) {
-            //throw exception here
+            throw new RuntimeException("clients.txt not found!");
         }
         while (input.hasNextLine()) {
             clientNames.add(input.nextLine());
@@ -48,9 +50,10 @@ public class FileInputOutput {
         equityNames = new ArrayList<>();
         Scanner input = null;
         try {
-            input = new Scanner(new File("../equities.txt"));
+            //add ../ eventually
+            input = new Scanner(new File("equities.txt"));
         } catch (FileNotFoundException s) {
-            //throw exception here
+            throw new RuntimeException("clients.txt not found!");
         }
         while (input.hasNextLine()) {
             equityNames.add(input.nextLine());
@@ -62,10 +65,11 @@ public class FileInputOutput {
         ArrayList<Order> orderList = new ArrayList<>();
         Scanner input = null;
         try{
-            input = new Scanner(new File("../input/" + fileName + ".in"));
+            //add ../ eventually
+            input = new Scanner(new File("input/" + fileName + ".in"));
         }
         catch(FileNotFoundException s){
-            //throw exception here
+            throw new RuntimeException("input/" + fileName + ".in not found!");
         }
         while(input.hasNextLine()){
             String contents = input.nextLine();
@@ -76,7 +80,7 @@ public class FileInputOutput {
             } else {
                 clientID = clientNames.indexOf(elements[1]);
                 if(clientID == -1) {
-                    //throw exception here--need to add
+                    throw new RuntimeException("Client " + elements[1] + " not found!");
                 }
             }
             if(elements[3].length() > 1 && elements[3].charAt(0) == 'E' && Character.isDigit(elements[3].charAt(1))){
@@ -84,7 +88,7 @@ public class FileInputOutput {
             } else {
                 equityID = equityNames.indexOf(elements[3]);
                 if(equityID == -1) {
-                    //throw exception here--need to add
+                    throw new RuntimeException("Equity " + elements[3] + " not found!");
                 }
             }
             timestamp = Integer.parseInt(elements[0]);
@@ -99,7 +103,8 @@ public class FileInputOutput {
     public ArrayList<Order> generateInput(int orderCount, int priceLimit, int quantityLimit) {
         ArrayList<Order> orderList = new ArrayList<>();
         try {
-            FileWriter writer = new FileWriter("../input/" + fileName + ".in");
+            //add ../ eventually
+            FileWriter writer = new FileWriter("input/" + fileName + ".in");
             int absoluteTime = 0;
             for (int i = 0; i < orderCount; i++) {
                 int clientID = (int)(Math.random() * clientNames.size());
@@ -121,7 +126,7 @@ public class FileInputOutput {
             }
             writer.close();
         } catch(IOException e) {
-            //throw exception here
+            throw new RuntimeException("Problem writing to input/" + fileName + ".in!");
         }
         return orderList;
     }
@@ -129,7 +134,8 @@ public class FileInputOutput {
     public void writeOutput(int transactionCount, ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions,
                             ArrayList<Client> clients) {
         try {
-            FileWriter writer = new FileWriter("../output/" + fileName + ".out");
+            //add ../ eventually
+            FileWriter writer = new FileWriter("output/" + fileName + ".out");
             writer.write("---end of day---\n");
             writer.write("orders processed: " + transactionCount + "\n");
             for (Pair<Integer, ArrayList<Transaction>> transList : transactions) {
@@ -148,7 +154,7 @@ public class FileInputOutput {
             }
             writer.close();
         } catch (IOException e) {
-            //throw exception here
+            throw new RuntimeException("Problem writing to output/" + fileName + ".out!");
         }
     }
 }
