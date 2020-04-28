@@ -56,12 +56,10 @@ public class GUI {
 
 		JTextArea welcome = new JTextArea();
 		springLayout.putConstraint(SpringLayout.NORTH, welcome, 25, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, welcome, -350, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, welcome, 45, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, welcome, -69, SpringLayout.EAST, frame.getContentPane());
-		welcome.setBackground(new Color(255, 255, 255));
+		welcome.setBackground(new Color(183, 255, 168));
 		welcome.setForeground(new Color(153, 50, 204));
-		welcome.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		welcome.setFont(new Font("Lucida Grande", Font.BOLD, 18));
 		welcome.setEditable(false);
 		frame.getContentPane().add(welcome);
 		welcome.setText(" Welcome to a virtual Stock Market!");
@@ -82,6 +80,7 @@ public class GUI {
 		frame.getContentPane().add(btnClickHereFor);
 
 		JButton btnInputFileHere = new JButton("Input file");
+		springLayout.putConstraint(SpringLayout.WEST, welcome, 0, SpringLayout.WEST, btnInputFileHere);
 		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 61, SpringLayout.WEST, frame.getContentPane());
 		btnInputFileHere.setForeground(new Color(153, 50, 204));
 		frame.getContentPane().add(btnInputFileHere);
@@ -140,6 +139,7 @@ public class GUI {
 		});
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
+		springLayout.putConstraint(SpringLayout.EAST, welcome, -39, SpringLayout.EAST, btnTimeTravelerOutput);
 		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 31, SpringLayout.SOUTH, btnMedianOutput);
 		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, -10, SpringLayout.EAST, frame.getContentPane());
 		//btnTimeTravelerOutput.setEnabled(false);
