@@ -41,19 +41,19 @@ public class InputFile {
 
     private void initialize() {
         frame = new JFrame();
-        frame.getContentPane().setBackground(new Color(240, 248, 255));
+        frame.getContentPane().setBackground(new Color(183, 255, 168));
         frame.setBounds(100, 100, 600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         inputFileTextField = new JTextField();
-        inputFileTextField.setBounds(168, 18, 130, 26);
+        inputFileTextField.setBounds(199, 18, 130, 26);
         frame.getContentPane().add(inputFileTextField);
         inputFileTextField.setColumns(10);
 
         JButton btnInputFileButton = new JButton("Input file");
-        btnInputFileButton.setForeground(new Color(255, 0, 0));
-        btnInputFileButton.setBounds(6, 18, 117, 29);
+        btnInputFileButton.setForeground(new Color(0, 153, 255));
+        btnInputFileButton.setBounds(30, 18, 117, 29);
         frame.getContentPane().add(btnInputFileButton);
         btnInputFileButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -71,12 +71,12 @@ public class InputFile {
         });
 
         randomTextField = new JTextField();
-        randomTextField.setBounds(223, 59, 130, 26);
+        randomTextField.setBounds(199, 59, 130, 26);
         frame.getContentPane().add(randomTextField);
         randomTextField.setColumns(10);
 
         JButton btnRandomInputButton = new JButton("Generate random input");
-        btnRandomInputButton.setForeground(Color.GREEN);
+        btnRandomInputButton.setForeground(new Color(153, 50, 204));
         btnRandomInputButton.setBounds(6, 59, 170, 29);
         frame.getContentPane().add(btnRandomInputButton);
         btnRandomInputButton.addMouseListener(new MouseAdapter() {
@@ -125,13 +125,13 @@ public class InputFile {
         clientTextField.setColumns(10);
 
         stockTextField = new JTextField();
-        stockTextField.setBounds(387, 260, 185, 26);
+        stockTextField.setBounds(368, 260, 185, 26);
         frame.getContentPane().add(stockTextField);
         stockTextField.setColumns(10);
 
         JButton btnAddClientButton = new JButton("Add client");
-        btnAddClientButton.setForeground(new Color(0, 0, 255));
-        btnAddClientButton.setBounds(45, 298, 117, 29);
+        btnAddClientButton.setForeground(new Color(0, 153, 255));
+        btnAddClientButton.setBounds(76, 298, 117, 29);
         frame.getContentPane().add(btnAddClientButton);
         btnAddClientButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -148,8 +148,8 @@ public class InputFile {
         });
 
         JButton btnRemoveClientButton = new JButton("Remove client");
-        btnRemoveClientButton.setForeground(Color.ORANGE);
-        btnRemoveClientButton.setBounds(45, 339, 117, 29);
+        btnRemoveClientButton.setForeground(new Color(153, 50, 204));
+        btnRemoveClientButton.setBounds(76, 339, 117, 29);
         frame.getContentPane().add(btnRemoveClientButton);
         btnRemoveClientButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -189,7 +189,7 @@ public class InputFile {
         });
 
         JButton btnAddStockButton = new JButton("Add stock");
-        btnAddStockButton.setForeground(new Color(0, 0, 255));
+        btnAddStockButton.setForeground(new Color(0, 153, 255));
         btnAddStockButton.setBounds(397, 298, 117, 29);
         frame.getContentPane().add(btnAddStockButton);
         btnAddStockButton.addMouseListener(new MouseAdapter() {
@@ -207,7 +207,7 @@ public class InputFile {
         });
 
         JButton btnRemoveStockButton = new JButton("Remove stock");
-        btnRemoveStockButton.setForeground(Color.ORANGE);
+        btnRemoveStockButton.setForeground(new Color(153, 50, 204));
         btnRemoveStockButton.setBounds(397, 339, 117, 29);
         frame.getContentPane().add(btnRemoveStockButton);
         btnRemoveStockButton.addMouseListener(new MouseAdapter() {

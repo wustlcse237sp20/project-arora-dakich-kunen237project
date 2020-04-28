@@ -47,7 +47,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(255, 218, 185));
+		frame.getContentPane().setBackground(new Color(183, 255, 168));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +70,7 @@ public class GUI {
 		JButton btnClickHereFor = new JButton("Click here for more information");
 		springLayout.putConstraint(SpringLayout.NORTH, btnClickHereFor, 31, SpringLayout.SOUTH, welcome);
 		springLayout.putConstraint(SpringLayout.WEST, btnClickHereFor, 0, SpringLayout.WEST, frame.getContentPane());
-		btnClickHereFor.setForeground(Color.CYAN);
+		btnClickHereFor.setForeground(new Color(0, 153, 255));
 		btnClickHereFor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -82,9 +82,8 @@ public class GUI {
 		frame.getContentPane().add(btnClickHereFor);
 
 		JButton btnInputFileHere = new JButton("Input file");
-		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 150, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 53, SpringLayout.WEST, frame.getContentPane());
-		btnInputFileHere.setForeground(Color.RED);
+		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 61, SpringLayout.WEST, frame.getContentPane());
+		btnInputFileHere.setForeground(new Color(153, 50, 204));
 		frame.getContentPane().add(btnInputFileHere);
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
@@ -98,9 +97,9 @@ public class GUI {
 		});
 
 		JButton btnExecute = new JButton("Execute");
-		btnExecute.setForeground(Color.ORANGE);
 		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 0, SpringLayout.NORTH, btnClickHereFor);
-		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -29, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -48, SpringLayout.EAST, frame.getContentPane());
+		btnExecute.setForeground(new Color(0, 153, 255));
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -121,9 +120,10 @@ public class GUI {
 		frame.getContentPane().add(btnExecute);
 
 		JButton btnMedianOutput = new JButton("Median output");
-		btnMedianOutput.setForeground(Color.BLUE);
-		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 0, SpringLayout.NORTH, btnInputFileHere);
-		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 0, SpringLayout.NORTH, btnMedianOutput);
+		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 34, SpringLayout.SOUTH, btnExecute);
+		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -28, SpringLayout.EAST, frame.getContentPane());
+		btnMedianOutput.setForeground(new Color(153, 50, 204));
 		frame.getContentPane().add(btnMedianOutput);
 		btnMedianOutput.addMouseListener(new MouseAdapter() {
 			@Override
@@ -140,9 +140,10 @@ public class GUI {
 		});
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
+		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 31, SpringLayout.SOUTH, btnMedianOutput);
+		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, -10, SpringLayout.EAST, frame.getContentPane());
 		//btnTimeTravelerOutput.setEnabled(false);
-		btnTimeTravelerOutput.setForeground(Color.MAGENTA);
-		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 36, SpringLayout.SOUTH, btnMedianOutput);
+		btnTimeTravelerOutput.setForeground(new Color(0, 153, 255));
 		btnTimeTravelerOutput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -156,7 +157,6 @@ public class GUI {
 				}
 			}
 		});
-		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnTimeTravelerOutput);
 
 

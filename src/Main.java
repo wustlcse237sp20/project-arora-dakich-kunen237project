@@ -4,50 +4,6 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-
-//        VirtualStockMarketTest tests = new VirtualStockMarketTest();
-//        tests.simpleTransactionClient();
-//        System.out.println("simpleTransactionClient test passed!");
-//        tests.simpleTransactionMedian();
-//        System.out.println("simpleTransactionMedian test passed!");
-//        tests.simpleTransactionTime();
-//        System.out.println("simpleTransactionTime test passed!");
-//        tests.twoBuysOneSellClient();
-//        System.out.println("twoBuysOneSellClient test passed!");
-//        tests.twoBuysOneSellNumber();
-//        System.out.println("twoBuysOneSellNumber test passed!");
-//        tests.twoBuyOneSellMedian();
-//        System.out.println("twoBuyOneSellMedian test passed!");
-//        tests.twoSellsOneBuyClient();
-//        System.out.println("twoSellsOneBuyClient test passed!");
-//        tests.twoSellsOneBuyMedian();
-//        System.out.println("twoSellsOneBuyMedian test passed!");
-//        tests.sellerMoreExpensive();
-//        System.out.println("sellerMoreExpensive test passed!");
-//        tests.complexTransactionClient();
-//        System.out.println("complexTransactionClient test passed!");
-//        tests.complexTransactionNumber();
-//        System.out.println("complexTransactionNumber test passed!");
-//        tests.complexTransactionMedian();
-//        System.out.println("complexTransactionMedian test passed!");
-//        tests.complexTransactionTime();
-//        System.out.println("complexTransactionTime test passed!");
-//        System.out.println();
-//        BuyComparatorTest buyComparatorTest = new BuyComparatorTest();
-//        buyComparatorTest.compare();
-//        System.out.println("buyCompTest passed!");
-//
-//        SellComparatorTest sellCompTest = new SellComparatorTest();
-//        sellCompTest.compare();
-//        System.out.println("sellCompTest passed!");
-//
-//        TimeComparatorTest timeCompTest = new TimeComparatorTest();
-//        timeCompTest.compare();
-//        System.out.println("timeCompTest passed!");
-//        System.out.println();
-//        System.out.println("Running complex test...");
-//        System.out.println();
-
         Order order1 = new Order(0, 1, 0, 250, 10, true);
         Order order2 = new Order( 0, 1, 1, 200, 20, true);
         Order order3 = new Order( 1, 0, 1, 75, 30, true);
