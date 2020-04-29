@@ -21,15 +21,13 @@ public class GUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI window = new GUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+		EventQueue.invokeLater(() -> {
+			try {
+				GUI window = new GUI();
+				window.frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 
-				}
 			}
 		});
 
@@ -113,6 +111,8 @@ public class GUI {
 					inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
 							stockMarket.getTransactions(), stockMarket.getClients());
 					inputFile.setStatus(2);
+					JOptionPane.showMessageDialog(frame, "Success: Verbose output written to output/" +
+							inputFile.getFileHandler().getFileName() + ".out!");
 				} catch (RuntimeException s) {
 					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
 				}

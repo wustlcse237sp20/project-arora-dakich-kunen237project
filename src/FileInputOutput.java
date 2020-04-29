@@ -1,4 +1,3 @@
-import javax.management.relation.RoleUnresolved;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -32,7 +31,7 @@ public class FileInputOutput {
 
     private void readClients() {
         clientNames = new ArrayList<>();
-        Scanner input = null;
+        Scanner input;
         try {
             //add ../ eventually
             input = new Scanner(new File("clients.txt"));
@@ -42,13 +41,16 @@ public class FileInputOutput {
         while (input.hasNextLine()) {
             clientNames.add(input.nextLine());
         }
+        if (clientNames.isEmpty()) {
+            throw new RuntimeException("clients.txt is empty!");
+        }
         input.close();
 
     }
 
     private void readEquities() {
         equityNames = new ArrayList<>();
-        Scanner input = null;
+        Scanner input;
         try {
             //add ../ eventually
             input = new Scanner(new File("equities.txt"));
@@ -58,12 +60,15 @@ public class FileInputOutput {
         while (input.hasNextLine()) {
             equityNames.add(input.nextLine());
         }
+        if (equityNames.isEmpty()) {
+            throw new RuntimeException("clients.txt is empty!");
+        }
         input.close();
     }
 
     public ArrayList<Order> readInput() {
         ArrayList<Order> orderList = new ArrayList<>();
-        Scanner input = null;
+        Scanner input;
         try{
             //add ../ eventually
             input = new Scanner(new File("input/" + fileName + ".in"));
@@ -71,30 +76,41 @@ public class FileInputOutput {
         catch(FileNotFoundException s){
             throw new RuntimeException("input/" + fileName + ".in not found!");
         }
-        while(input.hasNextLine()){
-            String contents = input.nextLine();
-            String[] elements = contents.split(" ");
-            int clientID, equityID, timestamp,quantity, price;
-            if(elements[1].length() > 1 && elements[1].charAt(0) == 'C' && Character.isDigit(elements[1].charAt(1))){
-                clientID = Integer.parseInt(elements[1].substring(1));
-            } else {
-                clientID = clientNames.indexOf(elements[1]);
-                if(clientID == -1) {
-                    throw new RuntimeException("Client " + elements[1] + " not found!");
+        try {
+            while (input.hasNextLine()) {
+                String contents = input.nextLine();
+                String[] elements = contents.split(" ");
+                int clientID, equityID, timestamp, quantity, price;
+                if (elements[1].length() > 1 && elements[1].charAt(0) == 'C' && Character.isDigit(elements[1].charAt(1))) {
+                    clientID = Integer.parseInt(elements[1].substring(1));
+                } else {
+                    clientID = clientNames.indexOf(elements[1]);
+                    if (clientID == -1) {
+                        throw new RuntimeException("Client " + elements[1] + " not found!");
+                    }
                 }
-            }
-            if(elements[3].length() > 1 && elements[3].charAt(0) == 'E' && Character.isDigit(elements[3].charAt(1))){
-                equityID = Integer.parseInt(elements[3].substring(1));
-            } else {
-                equityID = equityNames.indexOf(elements[3]);
-                if(equityID == -1) {
-                    throw new RuntimeException("Equity " + elements[3] + " not found!");
+                if (elements[3].length() > 1 && elements[3].charAt(0) == 'E' && Character.isDigit(elements[3].charAt(1))) {
+                    equityID = Integer.parseInt(elements[3].substring(1));
+                } else {
+                    equityID = equityNames.indexOf(elements[3]);
+                    if (equityID == -1) {
+                        throw new RuntimeException("Stock " + elements[3] + " not found!");
+                    }
                 }
+                timestamp = Integer.parseInt(elements[0]);
+                price = Integer.parseInt(elements[4].substring(1));
+                quantity = Integer.parseInt(elements[5].substring(1));
+                orderList.add(new Order(timestamp, clientID, equityID, price, quantity, elements[2].equals("BUY")));
             }
-            timestamp = Integer.parseInt(elements[0]);
-            price = Integer.parseInt(elements[4].substring(1));
-            quantity = Integer.parseInt(elements[5].substring(1));
-            orderList.add(new Order(timestamp, clientID, equityID, price, quantity, elements[2].equals("BUY")));
+        } catch (RuntimeException s) {
+            String message;
+            if (s.getMessage().length() > 4 && (s.getMessage().substring(0, 6).equals("Client") ||
+                    s.getMessage().substring(0, 5).equals("Stock"))) {
+                message = s.getMessage();
+            } else {
+                message = "input/" + fileName + ".in is not properly formatted!";
+            }
+            throw new RuntimeException(message);
         }
         input.close();
         return orderList;

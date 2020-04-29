@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="" />
+    <list default="true" id="92741a63-bfe1-445d-9dbc-9015c5ddd9ef" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,6 +162,11 @@
     <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1043@0.23.1792.1043" timestamp="1587712818999" />
     <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1044@0.23.1792.1044" timestamp="1587854552862" />
     <state width="1743" height="348" key="GridCell.Tab.1.right/0.23.1792.1045@0.23.1792.1045" timestamp="1587332989565" />
+    <state x="576" y="379" key="com.intellij.ide.util.TipDialog" timestamp="1588031520872">
+      <screen x="0" y="23" width="1792" height="1037" />
+    </state>
+    <state x="576" y="379" key="com.intellij.ide.util.TipDialog/0.23.1792.1037@0.23.1792.1037" timestamp="1588031520872" />
+    <state x="576" y="380" key="com.intellij.ide.util.TipDialog/0.23.1792.1041@0.23.1792.1041" timestamp="1588013779732" />
     <state x="600" y="461" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1586898277513">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>

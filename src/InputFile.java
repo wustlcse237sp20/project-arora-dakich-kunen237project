@@ -1,9 +1,5 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
@@ -59,11 +55,16 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+                    if (inputFileTextField.getText().equals("")) {
+                        throw new RuntimeException("Input filename missing!");
+                    }
                     fileHandler = new FileInputOutput(inputFileTextField.getText());
                     ArrayList<Order> orderList = fileHandler.readInput();
                     stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
                             fileHandler.getEquityNames().size());
                     status = 1;
+                    JOptionPane.showMessageDialog(frame, "Success: input/" + inputFileTextField.getText() +
+                            ".in loaded!");
                 } catch (RuntimeException s) {
                     JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
@@ -82,8 +83,9 @@ public class InputFile {
         btnRandomInputButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                int numOrders, priceLimit, quantityLimit;
                 try {
-                    String numOrders = (String) JOptionPane.showInputDialog(
+                    String numOrdersStr = (String)JOptionPane.showInputDialog(
                             frame,
                             "Please input the number of orders",
                             "",
@@ -91,7 +93,14 @@ public class InputFile {
                             null,
                             null,
                             null);
-                    String priceLimit = (String) JOptionPane.showInputDialog(
+                    if (numOrdersStr == null) {
+                        return;
+                    }
+                    numOrders = Integer.parseInt(numOrdersStr);
+                    if (numOrders <= 0) {
+                        throw new NumberFormatException();
+                    }
+                    String priceLimitStr = (String)JOptionPane.showInputDialog(
                             frame,
                             "What is the price limit?",
                             "",
@@ -99,7 +108,14 @@ public class InputFile {
                             null,
                             null,
                             null);
-                    String quantityLimit = (String) JOptionPane.showInputDialog(
+                    if (priceLimitStr == null) {
+                        return;
+                    }
+                    priceLimit = Integer.parseInt(priceLimitStr);
+                    if (priceLimit <= 0) {
+                        throw new NumberFormatException();
+                    }
+                    String quantityLimitStr = (String)JOptionPane.showInputDialog(
                             frame,
                             "What is the quantity limit?",
                             "",
@@ -107,12 +123,28 @@ public class InputFile {
                             null,
                             null,
                             null);
+                    if (quantityLimitStr == null) {
+                        return;
+                    }
+                    quantityLimit = Integer.parseInt(quantityLimitStr);
+                    if (quantityLimit <= 0) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: Not a positive integer!");
+                    return;
+                }
+                try {
+                    if (randomTextField.getText().equals("")) {
+                        throw new RuntimeException("Input filename missing!");
+                    }
                     fileHandler = new FileInputOutput(randomTextField.getText());
-                    ArrayList<Order> orderList = fileHandler.generateInput(Integer.parseInt(numOrders),
-                            Integer.parseInt(priceLimit), Integer.parseInt(quantityLimit));
+                    ArrayList<Order> orderList = fileHandler.generateInput(numOrders, priceLimit, quantityLimit);
                     stockMarket = new VirtualStockMarket(orderList, fileHandler.getClientNames().size(),
                             fileHandler.getEquityNames().size());
                     status = 1;
+                    JOptionPane.showMessageDialog(frame, "Success: input/" + randomTextField.getText() +
+                            ".in generated and loaded!");
                 } catch (RuntimeException s) {
                     JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
@@ -137,12 +169,29 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+                    if (clientTextField.getText().equals("")) {
+                        throw new IllegalArgumentException("No client name provided!");
+                    }
+                    ArrayList<String> clientNames = new ArrayList<>();
+                    //add ../ eventually
+                    Scanner input = new Scanner(new File("clients.txt"));
+                    while (input.hasNextLine()) {
+                        clientNames.add(input.nextLine());
+                    }
+                    input.close();
+                    if (clientNames.indexOf(clientTextField.getText()) != -1) {
+                        throw new IllegalArgumentException("Client " + clientTextField.getText() + " already exists!");
+                    }
                     //add ../ eventually
                     FileWriter writer = new FileWriter("clients.txt",true);
                     writer.write(clientTextField.getText() + "\n");
                     writer.close();
+                    JOptionPane.showMessageDialog(frame, "Success: Client " + clientTextField.getText() +
+                            " added!");
                 } catch (IOException s) {
                     JOptionPane.showMessageDialog(frame, "Error: clients.txt not found!");
+                } catch (IllegalArgumentException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
             }
         });
@@ -155,8 +204,11 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+                    if (clientTextField.getText().equals("")) {
+                        throw new RuntimeException("No client name provided!");
+                    }
                     ArrayList<String> clientNames = new ArrayList<>();
-                    Scanner input = null;
+                    Scanner input;
                     try {
                         //add ../ eventually
                         input = new Scanner(new File("clients.txt"));
@@ -169,7 +221,7 @@ public class InputFile {
                     input.close();
                     int index = clientNames.indexOf(clientTextField.getText());
                     if (index == -1) {
-                        return;
+                        throw new RuntimeException("Client " + clientTextField.getText() + " not found!");
                     }
                     clientNames.remove(index);
                     try {
@@ -179,8 +231,10 @@ public class InputFile {
                             writer.write(client + "\n");
                         }
                         writer.close();
+                        JOptionPane.showMessageDialog(frame, "Success: Client " + clientTextField.getText() +
+                                " removed!");
                     } catch (IOException s) {
-                        throw new RuntimeException("clients.txt. not found!");
+                        throw new RuntimeException("clients.txt not found!");
                     }
                 } catch (RuntimeException s) {
                     JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
@@ -196,12 +250,29 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+                    if (stockTextField.getText().equals("")) {
+                        throw new IllegalArgumentException("No stock name provided!");
+                    }
+                    ArrayList<String> equityNames = new ArrayList<>();
+                    //add ../ eventually
+                    Scanner input = new Scanner(new File("equities.txt"));
+                    while (input.hasNextLine()) {
+                        equityNames.add(input.nextLine());
+                    }
+                    input.close();
+                    if (equityNames.indexOf(stockTextField.getText()) != -1) {
+                        throw new IllegalArgumentException("Stock " + stockTextField.getText() + " already exists!");
+                    }
                     //add ../ eventually
                     FileWriter writer = new FileWriter("equities.txt",true);
                     writer.write(stockTextField.getText() + "\n");
                     writer.close();
+                    JOptionPane.showMessageDialog(frame, "Success: Stock " + stockTextField.getText() +
+                            " added!");
                 } catch (IOException s) {
                     JOptionPane.showMessageDialog(frame, "Error: equities.txt not found!");
+                } catch (IllegalArgumentException s) {
+                    JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
                 }
             }
         });
@@ -214,13 +285,16 @@ public class InputFile {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+                    if (stockTextField.getText().equals("")) {
+                        throw new RuntimeException("No stock name provided!");
+                    }
                     ArrayList<String> equityNames = new ArrayList<>();
                     Scanner input = null;
                     try {
                         //add ../ eventually
                         input = new Scanner(new File("equities.txt"));
                     } catch (FileNotFoundException s) {
-                        //throw exception here
+                        throw new RuntimeException("equities.txt not found!");
                     }
                     while (input.hasNextLine()) {
                         equityNames.add(input.nextLine());
@@ -228,7 +302,7 @@ public class InputFile {
                     input.close();
                     int index = equityNames.indexOf(stockTextField.getText());
                     if (index == -1) {
-                        return;
+                        throw new RuntimeException("Stock " + stockTextField.getText() + " not found!");
                     }
                     equityNames.remove(index);
                     try {
@@ -238,8 +312,10 @@ public class InputFile {
                             writer.write(equity + "\n");
                         }
                         writer.close();
+                        JOptionPane.showMessageDialog(frame, "Success: Stock " + stockTextField.getText() +
+                                " removed!");
                     } catch (IOException s) {
-                        //throw exception here
+                        throw new RuntimeException("clients.txt not found!");
                     }
                 } catch (RuntimeException s) {
                     JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
