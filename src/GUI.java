@@ -55,7 +55,9 @@ public class GUI {
 
 		JTextArea welcome = new JTextArea();
 		springLayout.putConstraint(SpringLayout.NORTH, welcome, 25, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, welcome, 61, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, welcome, 45, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, welcome, -49, SpringLayout.EAST, frame.getContentPane());
 		welcome.setBackground(new Color(183, 255, 168));
 		welcome.setForeground(new Color(153, 50, 204));
 		welcome.setFont(new Font("Lucida Grande", Font.BOLD, 18));
@@ -79,9 +81,10 @@ public class GUI {
 		frame.getContentPane().add(btnClickHereFor);
 
 		JButton btnInputFileHere = new JButton("Input file");
-		springLayout.putConstraint(SpringLayout.WEST, welcome, 0, SpringLayout.WEST, btnInputFileHere);
-		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 61, SpringLayout.WEST, frame.getContentPane());
-		btnInputFileHere.setForeground(new Color(153, 50, 204));
+		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 6, SpringLayout.SOUTH, btnClickHereFor);
+		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 0, SpringLayout.WEST, btnClickHereFor);
+		springLayout.putConstraint(SpringLayout.EAST, btnInputFileHere, 0, SpringLayout.EAST, btnClickHereFor);
+		btnInputFileHere.setForeground(new Color(0, 153, 255));
 		frame.getContentPane().add(btnInputFileHere);
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
@@ -96,8 +99,8 @@ public class GUI {
 
 		JButton btnExecute = new JButton("Execute");
 		springLayout.putConstraint(SpringLayout.NORTH, btnExecute, 0, SpringLayout.NORTH, btnClickHereFor);
-		springLayout.putConstraint(SpringLayout.EAST, btnExecute, -48, SpringLayout.EAST, frame.getContentPane());
-		btnExecute.setForeground(new Color(0, 153, 255));
+		springLayout.putConstraint(SpringLayout.WEST, btnExecute, 25, SpringLayout.EAST, btnClickHereFor);
+		btnExecute.setForeground(Color.RED);
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -120,10 +123,10 @@ public class GUI {
 		frame.getContentPane().add(btnExecute);
 
 		JButton btnMedianOutput = new JButton("Median output");
-		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 0, SpringLayout.NORTH, btnMedianOutput);
-		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 34, SpringLayout.SOUTH, btnExecute);
-		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -28, SpringLayout.EAST, frame.getContentPane());
-		btnMedianOutput.setForeground(new Color(153, 50, 204));
+		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 6, SpringLayout.SOUTH, btnExecute);
+		springLayout.putConstraint(SpringLayout.WEST, btnMedianOutput, 0, SpringLayout.WEST, btnExecute);
+		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, 0, SpringLayout.EAST, btnExecute);
+		btnMedianOutput.setForeground(new Color(255, 165, 0));
 		frame.getContentPane().add(btnMedianOutput);
 		btnMedianOutput.addMouseListener(new MouseAdapter() {
 			@Override
@@ -183,11 +186,11 @@ public class GUI {
 		});
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
-		springLayout.putConstraint(SpringLayout.EAST, welcome, -39, SpringLayout.EAST, btnTimeTravelerOutput);
-		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 31, SpringLayout.SOUTH, btnMedianOutput);
-		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, -10, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 6, SpringLayout.SOUTH, btnMedianOutput);
+		springLayout.putConstraint(SpringLayout.WEST, btnTimeTravelerOutput, 268, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnExecute, 0, SpringLayout.EAST, btnTimeTravelerOutput);
 		//btnTimeTravelerOutput.setEnabled(false);
-		btnTimeTravelerOutput.setForeground(new Color(0, 153, 255));
+		btnTimeTravelerOutput.setForeground(new Color(255, 165, 0));
 		btnTimeTravelerOutput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

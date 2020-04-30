@@ -49,7 +49,7 @@ public class InputFile {
 
         JButton btnInputFileButton = new JButton("Input file");
         btnInputFileButton.setForeground(new Color(0, 153, 255));
-        btnInputFileButton.setBounds(30, 18, 117, 29);
+        btnInputFileButton.setBounds(6, 18, 170, 29);
         frame.getContentPane().add(btnInputFileButton);
         btnInputFileButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -163,7 +163,7 @@ public class InputFile {
 
         JButton btnAddClientButton = new JButton("Add client");
         btnAddClientButton.setForeground(new Color(0, 153, 255));
-        btnAddClientButton.setBounds(76, 298, 117, 29);
+        btnAddClientButton.setBounds(45, 298, 185, 29);
         frame.getContentPane().add(btnAddClientButton);
         btnAddClientButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -198,7 +198,7 @@ public class InputFile {
 
         JButton btnRemoveClientButton = new JButton("Remove client");
         btnRemoveClientButton.setForeground(new Color(153, 50, 204));
-        btnRemoveClientButton.setBounds(76, 339, 117, 29);
+        btnRemoveClientButton.setBounds(45, 339, 185, 29);
         frame.getContentPane().add(btnRemoveClientButton);
         btnRemoveClientButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -244,7 +244,7 @@ public class InputFile {
 
         JButton btnAddStockButton = new JButton("Add stock");
         btnAddStockButton.setForeground(new Color(0, 153, 255));
-        btnAddStockButton.setBounds(397, 298, 117, 29);
+        btnAddStockButton.setBounds(368, 298, 185, 29);
         frame.getContentPane().add(btnAddStockButton);
         btnAddStockButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -279,7 +279,7 @@ public class InputFile {
 
         JButton btnRemoveStockButton = new JButton("Remove stock");
         btnRemoveStockButton.setForeground(new Color(153, 50, 204));
-        btnRemoveStockButton.setBounds(397, 339, 117, 29);
+        btnRemoveStockButton.setBounds(368, 339, 185, 29);
         frame.getContentPane().add(btnRemoveStockButton);
         btnRemoveStockButton.addMouseListener(new MouseAdapter() {
             @Override
