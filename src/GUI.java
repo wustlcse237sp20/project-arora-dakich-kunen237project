@@ -60,7 +60,7 @@ public class GUI {
 		springLayout.putConstraint(SpringLayout.EAST, welcome, -49, SpringLayout.EAST, frame.getContentPane());
 		welcome.setBackground(new Color(183, 255, 168));
 		welcome.setForeground(new Color(153, 50, 204));
-		welcome.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+		welcome.setFont(new Font("TimesRoman", Font.BOLD, 18));
 		welcome.setEditable(false);
 		frame.getContentPane().add(welcome);
 		welcome.setText(" Welcome to a Virtual Stock Market!");
