@@ -60,7 +60,7 @@ public class GUI {
 		springLayout.putConstraint(SpringLayout.EAST, welcome, -49, SpringLayout.EAST, frame.getContentPane());
 		welcome.setBackground(new Color(183, 255, 168));
 		welcome.setForeground(new Color(153, 50, 204));
-		welcome.setFont(new Font("TimesRoman", Font.BOLD, 18));
+		welcome.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		welcome.setEditable(false);
 		frame.getContentPane().add(welcome);
 		welcome.setText(" Welcome to a Virtual Stock Market!");
@@ -79,7 +79,10 @@ public class GUI {
 			}
 		});
 		frame.getContentPane().add(btnClickHereFor);
-
+		
+		JFrame inf = new JFrame("Can re-run existing input file with \"Input file\" (make sure that if x is typed in, input/x.in exists)");
+		inf.setSize(300, 210);
+		
 		JButton btnInputFileHere = new JButton("Input file");
 		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 6, SpringLayout.SOUTH, btnClickHereFor);
 		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 0, SpringLayout.WEST, btnClickHereFor);
@@ -184,7 +187,8 @@ public class GUI {
 				}
 			}
 		});
-
+		
+		
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
 		springLayout.putConstraint(SpringLayout.NORTH, btnTimeTravelerOutput, 6, SpringLayout.SOUTH, btnMedianOutput);
 		springLayout.putConstraint(SpringLayout.WEST, btnTimeTravelerOutput, 268, SpringLayout.WEST, frame.getContentPane());
