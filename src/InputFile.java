@@ -191,8 +191,7 @@ public class InputFile {
                         throw new IllegalArgumentException("No client name provided!");
                     }
                     ArrayList<String> clientNames = new ArrayList<>();
-                    //add ../ eventually
-                    Scanner input = new Scanner(new File("clients.txt"));
+                    Scanner input = new Scanner(new File("../clients.txt"));
                     while (input.hasNextLine()) {
                         clientNames.add(input.nextLine());
                     }
@@ -200,8 +199,7 @@ public class InputFile {
                     if (clientNames.indexOf(clientTextField.getText()) != -1) {
                         throw new IllegalArgumentException("Client " + clientTextField.getText() + " already exists!");
                     }
-                    //add ../ eventually
-                    FileWriter writer = new FileWriter("clients.txt",true);
+                    FileWriter writer = new FileWriter("../clients.txt",true);
                     writer.write(clientTextField.getText() + "\n");
                     writer.close();
                     JOptionPane.showMessageDialog(frame, "Success: Client " + clientTextField.getText() +
@@ -228,8 +226,7 @@ public class InputFile {
                     ArrayList<String> clientNames = new ArrayList<>();
                     Scanner input;
                     try {
-                        //add ../ eventually
-                        input = new Scanner(new File("clients.txt"));
+                        input = new Scanner(new File("../clients.txt"));
                     } catch (FileNotFoundException s) {
                         throw new RuntimeException("clients.txt not found!");
                     }
@@ -243,8 +240,7 @@ public class InputFile {
                     }
                     clientNames.remove(index);
                     try {
-                        //add ../ eventually
-                        FileWriter writer = new FileWriter("clients.txt");
+                        FileWriter writer = new FileWriter("../clients.txt");
                         for (String client : clientNames) {
                             writer.write(client + "\n");
                         }
@@ -272,8 +268,7 @@ public class InputFile {
                         throw new IllegalArgumentException("No stock name provided!");
                     }
                     ArrayList<String> equityNames = new ArrayList<>();
-                    //add ../ eventually
-                    Scanner input = new Scanner(new File("equities.txt"));
+                    Scanner input = new Scanner(new File("../equities.txt"));
                     while (input.hasNextLine()) {
                         equityNames.add(input.nextLine());
                     }
@@ -281,8 +276,7 @@ public class InputFile {
                     if (equityNames.indexOf(stockTextField.getText()) != -1) {
                         throw new IllegalArgumentException("Stock " + stockTextField.getText() + " already exists!");
                     }
-                    //add ../ eventually
-                    FileWriter writer = new FileWriter("equities.txt",true);
+                    FileWriter writer = new FileWriter("../equities.txt",true);
                     writer.write(stockTextField.getText() + "\n");
                     writer.close();
                     JOptionPane.showMessageDialog(frame, "Success: Stock " + stockTextField.getText() +
@@ -309,8 +303,7 @@ public class InputFile {
                     ArrayList<String> equityNames = new ArrayList<>();
                     Scanner input = null;
                     try {
-                        //add ../ eventually
-                        input = new Scanner(new File("equities.txt"));
+                        input = new Scanner(new File("../equities.txt"));
                     } catch (FileNotFoundException s) {
                         throw new RuntimeException("equities.txt not found!");
                     }
@@ -324,8 +317,7 @@ public class InputFile {
                     }
                     equityNames.remove(index);
                     try {
-                        //add ../ eventually
-                        FileWriter writer = new FileWriter("equities.txt");
+                        FileWriter writer = new FileWriter("../equities.txt");
                         for (String equity : equityNames) {
                             writer.write(equity + "\n");
                         }
