@@ -146,7 +146,7 @@ public class FileInputOutput {
         }
         return orderList;
     }
-    
+
     public void writeOutput(int transactionCount, ArrayList<Pair<Integer, ArrayList<Transaction>>> transactions,
                             ArrayList<Client> clients) {
         try {
