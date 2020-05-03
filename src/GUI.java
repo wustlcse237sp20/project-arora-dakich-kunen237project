@@ -1,14 +1,11 @@
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.SpringLayout;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class GUI {
 
@@ -80,6 +77,13 @@ public class GUI {
 		});
 		frame.getContentPane().add(btnClickHereFor);
 
+		JLabel inf = new JLabel("Choose new or existing input file:");
+		springLayout.putConstraint(SpringLayout.NORTH, inf, 135, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, inf, 53, SpringLayout.WEST, frame.getContentPane());
+		inf.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		frame.getContentPane().add(inf);
+
+
 		JButton btnInputFileHere = new JButton("Input file");
 		springLayout.putConstraint(SpringLayout.NORTH, btnInputFileHere, 150, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnInputFileHere, 53, SpringLayout.WEST, frame.getContentPane());
@@ -88,13 +92,19 @@ public class GUI {
 		btnInputFileHere.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				inputFile = new InputFile();
-				//inputFile.fileFrame();
-				/*if (inputFile.getStockMarket() != null) {
-					btnExecute.setEnabled(true);
-				}*/
+				try {
+					inputFile = new InputFile();
+				} catch(RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
+
+		JLabel exe = new JLabel("Generate output:");
+		springLayout.putConstraint(SpringLayout.NORTH, exe, 60, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, exe, -29, SpringLayout.EAST, frame.getContentPane());
+		exe.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		frame.getContentPane().add(exe);
 
 		JButton btnExecute = new JButton("Execute");
 		//btnExecute.setEnabled(false);
@@ -104,20 +114,98 @@ public class GUI {
 		btnExecute.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VirtualStockMarket stockMarket = inputFile.getStockMarket();
-				stockMarket.computeTrans();
-				inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
-						stockMarket.getTransactions(),stockMarket.getClients());
+				try {
+					if (inputFile == null || inputFile.getStatus() == 0) {
+						throw new RuntimeException("No input file chosen!");
+					}
+					VirtualStockMarket stockMarket = inputFile.getStockMarket();
+					stockMarket.computeTrans();
+					inputFile.getFileHandler().writeOutput(stockMarket.getTransactionCount(),
+							stockMarket.getTransactions(), stockMarket.getClients());
+					inputFile.setStatus(2);
+					JOptionPane.showMessageDialog(frame, "Success: Verbose output written to output/" +
+							inputFile.getFileHandler().getFileName() + ".out!");
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
 		frame.getContentPane().add(btnExecute);
+
+		JLabel mo = new JLabel("Plot median values:");
+		springLayout.putConstraint(SpringLayout.NORTH, mo, 135, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, mo, -20, SpringLayout.EAST, frame.getContentPane());
+		mo.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		frame.getContentPane().add(mo);
 
 		JButton btnMedianOutput = new JButton("Median output");
 		btnMedianOutput.setEnabled(false);
 		btnMedianOutput.setForeground(Color.BLUE);
 		springLayout.putConstraint(SpringLayout.NORTH, btnMedianOutput, 0, SpringLayout.NORTH, btnInputFileHere);
 		springLayout.putConstraint(SpringLayout.EAST, btnMedianOutput, -10, SpringLayout.EAST, frame.getContentPane());
+		btnMedianOutput.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					if (inputFile == null || inputFile.getStatus() != 2) {
+						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
+					}
+					int timestamp;
+					ArrayList<Pair<Integer, ArrayList<Integer>>> medianData = inputFile.getStockMarket().getMedians();
+					int limit = medianData.get(medianData.size() - 1).first;
+					try {
+						String timestampStr = (String) JOptionPane.showInputDialog(
+								frame,
+								"Please enter your timestamp of choice (0-" + limit + ").",
+								"",
+								JOptionPane.PLAIN_MESSAGE,
+								null,
+								null,
+								null);
+						if (timestampStr == null) {
+							return;
+						}
+						timestamp = Integer.parseInt(timestampStr);
+						if (timestamp < 0 || timestamp > limit) {
+							throw new NumberFormatException();
+						}
+					} catch (NumberFormatException s) {
+						throw new RuntimeException("Invalid timestamp!");
+					}
+					String message = "Median match prices at timestamp " + timestamp + ":\n\nName\tMedian\n";
+					int equityCount = inputFile.getStockMarket().getEquityCount();
+					ArrayList<Integer> equityMedians = new ArrayList<>();
+					for (int i = 0; i < equityCount; i++) {
+						equityMedians.add(0);
+					}
+					for (Pair<Integer, ArrayList<Integer>> medianList : medianData) {
+						if (medianList.first > timestamp) {
+							break;
+						}
+						for (int i = 0; i < equityCount; i++) {
+							equityMedians.set(i, medianList.second.get(i));
+						}
+					}
+					for (int i = 0; i < equityCount; i++) {
+						int median = equityMedians.get(i);
+						message += inputFile.getFileHandler().getEquityNames().get(i) + "\t" +
+								(median == 0 ? "N/A" : median) + "\n";
+					}
+					JTextArea textArea = new JTextArea(message);
+					textArea.setEditable(false);
+					JOptionPane.showMessageDialog(frame, textArea);
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
+			}
+		});
 		frame.getContentPane().add(btnMedianOutput);
+
+		JLabel to = new JLabel("Find times to buy and sell:");
+		springLayout.putConstraint(SpringLayout.NORTH, to, 200, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, to, -20, SpringLayout.EAST, frame.getContentPane());
+		to.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		frame.getContentPane().add(to);
 
 		JButton btnTimeTravelerOutput = new JButton("Time traveler output");
 		btnTimeTravelerOutput.setEnabled(false);
@@ -126,7 +214,23 @@ public class GUI {
 		btnTimeTravelerOutput.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(frame, "Time traveler output");
+				try {
+					if (inputFile == null || inputFile.getStatus() != 2) {
+						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
+					}
+					String message = "Ideal times to buy and sell stocks:\t\n\nName\tBuy\tSell\n";
+					int equityCount = inputFile.getStockMarket().getEquityCount();
+					for (int i = 0; i < equityCount; i++) {
+						Pair<Integer, Integer> buySell = inputFile.getStockMarket().getTimeTravelers().get(i);
+						message += inputFile.getFileHandler().getEquityNames().get(i) + "\t" +
+								(buySell.first == -1 ? "N/A\tN/A\n" : buySell.first + "\t" + buySell.second + "\n");
+					}
+					JTextArea textArea = new JTextArea(message);
+					textArea.setEditable(false);
+					JOptionPane.showMessageDialog(frame, textArea);
+				} catch (RuntimeException s) {
+					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
+				}
 			}
 		});
 		springLayout.putConstraint(SpringLayout.EAST, btnTimeTravelerOutput, 0, SpringLayout.EAST, frame.getContentPane());
@@ -135,3 +239,4 @@ public class GUI {
 
 	}
 }
+
