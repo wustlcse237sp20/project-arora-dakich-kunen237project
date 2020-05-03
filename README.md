@@ -1,22 +1,15 @@
 # cse237-project: Virtual Stock Market
 Members: Aaron Arora, Tori Dakich, Jeremy Kunen
 
-User stories completed this iteration (iteration 2):
-
-- Real names are given for equities and stored in equities.txt. User can enter and remove names.
-- Real names are given for clients and stored in clients.txt. User can enter and remove names.
-- Merged stock market main execution and input codes with user interface.
-- Improved user interface aesthetics.
-- User can generate random input given price limit and quantity limit. Input gets stored to a file.
-- When main stock market algorithhm is executed, verbose output is written to output file with same name as input file (except .out instead of .in).
-
-User stories for next iteration:
-- Error checking/exceptions.
-- Dialog boxes for all actions performed (success or failure).
+User stories completed this iteration (iteration 3):
+- Error handling and exceptions
+- Dialog boxes to alert the user if successful or not
+- Detailed median and time traveler output dialog boxes
+- Improved UI layout and added text to better guide the user
+- Main stock market routine (computeTrans) split up into multiple subroutines as advised from the feedback given
 
 What is implemented but doesn't currently work:
-- User interface tends to crash when false/erroneous input is specified. Plan on implementing error checking/exceptions to deal with this.
-- Median and time travlelers algorithms implemented but not yet runnable from the UI.
+- Everything we have implemented works.
 
 ***IMPORTANT NOTE***
 When specifying the input file name "filename", the file is stored in input/filename.in.
@@ -28,6 +21,15 @@ HOW TO RUN:
 - "Generate random input" will add input file to input/ directory (if filename given is x, then input/x.in will be written)
 - Generate output by pressing "Execute" (will write to outpu/x.out)
 - Can re-run existing input file with "Input file" (make sure that if x is typed in, input/x.in exists)
+
+Iteration 2:
+
+- Real names are given for equities and stored in equities.txt. User can enter and remove names.
+- Real names are given for clients and stored in clients.txt. User can enter and remove names.
+- Merged stock market main execution and input codes with user interface.
+- Improved user interface aesthetics.
+- User can generate random input given price limit and quantity limit. Input gets stored to a file.
+- When main stock market algorithhm is executed, verbose output is written to output file with same name as input file (except .out instead of .in).
 
 Feedback from iteration 1:
 - Removed .idea from .gitignore
