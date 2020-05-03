@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class GUI {
 
@@ -149,7 +150,50 @@ public class GUI {
 					if (inputFile == null || inputFile.getStatus() != 2) {
 						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
 					}
-					JOptionPane.showMessageDialog(frame, "Median output");
+					int timestamp;
+					ArrayList<Pair<Integer, ArrayList<Integer>>> medianData = inputFile.getStockMarket().getMedians();
+					int limit = medianData.get(medianData.size() - 1).first;
+					try {
+						String timestampStr = (String) JOptionPane.showInputDialog(
+								frame,
+								"Please enter your timestamp of choice (0-" + limit + ").",
+								"",
+								JOptionPane.PLAIN_MESSAGE,
+								null,
+								null,
+								null);
+						if (timestampStr == null) {
+							return;
+						}
+						timestamp = Integer.parseInt(timestampStr);
+						if (timestamp < 0 || timestamp > limit) {
+							throw new NumberFormatException();
+						}
+					} catch (NumberFormatException s) {
+						throw new RuntimeException("Invalid timestamp!");
+					}
+					String message = "Median match prices at timestamp " + timestamp + ":\n\nName\tMedian\n";
+					int equityCount = inputFile.getStockMarket().getEquityCount();
+					ArrayList<Integer> equityMedians = new ArrayList<>();
+					for (int i = 0; i < equityCount; i++) {
+						equityMedians.add(0);
+					}
+					for (Pair<Integer, ArrayList<Integer>> medianList : medianData) {
+						if (medianList.first > timestamp) {
+							break;
+						}
+						for (int i = 0; i < equityCount; i++) {
+							equityMedians.set(i, medianList.second.get(i));
+						}
+					}
+					for (int i = 0; i < equityCount; i++) {
+						int median = equityMedians.get(i);
+						message += inputFile.getFileHandler().getEquityNames().get(i) + "\t" +
+								(median == 0 ? "N/A" : median) + "\n";
+					}
+					JTextArea textArea = new JTextArea(message);
+					textArea.setEditable(false);
+					JOptionPane.showMessageDialog(frame, textArea);
 				} catch (RuntimeException s) {
 					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
 				}
@@ -174,7 +218,16 @@ public class GUI {
 					if (inputFile == null || inputFile.getStatus() != 2) {
 						throw new RuntimeException("No data to show. Make sure to run \"Execute\" first!");
 					}
-					JOptionPane.showMessageDialog(frame, "Time traveler output");
+					String message = "Ideal times to buy and sell stocks:\t\n\nName\tBuy\tSell\n";
+					int equityCount = inputFile.getStockMarket().getEquityCount();
+					for (int i = 0; i < equityCount; i++) {
+						Pair<Integer, Integer> buySell = inputFile.getStockMarket().getTimeTravelers().get(i);
+						message += inputFile.getFileHandler().getEquityNames().get(i) + "\t" +
+								(buySell.first == -1 ? "N/A\tN/A\n" : buySell.first + "\t" + buySell.second + "\n");
+					}
+					JTextArea textArea = new JTextArea(message);
+					textArea.setEditable(false);
+					JOptionPane.showMessageDialog(frame, textArea);
 				} catch (RuntimeException s) {
 					JOptionPane.showMessageDialog(frame, "Error: " + s.getMessage());
 				}
